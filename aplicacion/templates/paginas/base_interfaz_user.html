@@ -1,0 +1,837 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{% static 'aplicacion/images/logo_oficina_gestion_riesgo.png' %}">
+    <title>{% block titulo %}Inicio_Users{% endblock %}</title>
+
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="{% static 'aplicacion/css/style_base_admin2.css' %}">
+    {% block estilos %}{% endblock %}
+</head>
+
+<body>
+    <!-- Scripts -->
+    <script src="{% static 'aplicacion/js/script_inicio_admin.js' %}" defer></script>
+    <script src="{% static 'aplicacion/js/script_accesibilidad.js' %}" defer></script>
+
+
+    <!-- Header móvil -->
+    <header class="mobile-header">
+        <button class="menu-toggle" id="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="logo">ECOPARM</div>
+    </header>
+
+    <div class="container">
+        <!-- Barra lateral -->
+        <nav class="sidebar" id="sidebar">
+            <ul class="menu">
+                <li class=" perfil-item {% if active_section == 'perfil' %}active{% endif %}">
+                    <a href="{% url 'users_perfil' %}">
+                        <div class="menu-item-content profile-content">
+                            <div class="barra-profile-photo">
+                                <img src="{% if request.user.foto_perfil %}{{ request.user.foto_perfil.url }}{% else %}{% static 'aplicacion/images/usuario.png' %}{% endif %}"
+                                    alt="Foto de perfil" class="barra-profile-img">
+                    </a>
+    </div>
+    <span class="barra-username">{{ request.user.nombre }} {{ request.user.apellido }}</span>
+    </div>
+
+    </li>
+    <hr>
+    <li class="menu-item {% if active_section == 'evidencias' %}active{% endif %}">
+        <a href="{% url 'users_dashboard' %}">
+            <div class="menu-item-content">
+                <i class="fas fa-folder-open"></i>
+                <span>DASHBOARD</span>
+            </div>
+        </a>
+    </li>
+
+
+    <li class="menu-item {% if active_section == 'evidencias' %}active{% endif %}">
+        <a href="{% url 'users_evidencias' %}">
+            <div class="menu-item-content">
+                <i class="fas fa-folder-open"></i>
+                <span>EVIDENCIAS</span>
+            </div>
+        </a>
+    </li>
+
+    <li class="menu-item {% if active_section == 'evidencias' %}active{% endif %}">
+        <a href="{% url 'users_flora_fauna' %}">
+            <div class="menu-item-content">
+                <i class="fas fa-folder-open"></i>
+                <span>FLORA/FAUNA</span>
+            </div>
+        </a>
+    </li>
+
+    <li class="menu-item">
+        <a href="{% url 'index' %}">
+            <div class="menu-item-content">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>CERRAR SESION</span>
+            </div>
+        </a>
+    </li>
+    </ul>
+    </nav>
+
+    <style>
+        .chat-button-container {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .chat-button {
+            font-size: 25px;
+            position: fixed;
+            right: 20px;
+            padding: 7px;
+            background-color: #32794a;
+            height: 52px;
+            width: 52px;
+            cursor: pointer;
+            border-radius: 50%;
+            transition: all 0.30s ease;
+            border: none;
+            bottom: 80px;
+            z-index: 8888;
+        }
+
+        .chat-button:hover {
+            background-color: #2e7d32;
+            transform: scale(1.1);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .chat-icon {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .chat-text {
+            position: absolute;
+            right: 70px;
+            background-color: white;
+            color: #2e7d32;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            opacity: 0;
+            transform: translateX(10px);
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+        }
+
+        .chat-button-container:hover .chat-text {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .chat-container {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 350px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            display: none;
+            flex-direction: column;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.3s, opacity 0.3s;
+            z-index: 1000;
+            height: 450px;
+            max-width: calc(100vw - 60px);
+            box-sizing: border-box;
+        }
+
+        .chat-container.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, #388e3c, #2e7d32);
+            color: white;
+            padding: 15px;
+            border-radius: 15px 15px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-title {
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .chat-body {
+            flex: 1;
+            padding: 0 10px 0 15px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            background-color: #f9f9f9;
+            scrollbar-width: thin;
+        }
+
+        .chat-body::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .chat-body::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 5px;
+        }
+
+        .chat-body::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 5px;
+        }
+
+        .chat-body::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+
+        .message {
+            max-width: 85%;
+            padding: 12px 15px;
+            margin: 8px 0;
+            border-radius: 18px;
+            word-wrap: break-word;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            overflow: visible;
+            box-sizing: border-box;
+            line-height: 1.4;
+            white-space: normal;
+            word-break: break-word;
+        }
+
+        .user-message {
+            align-self: flex-end;
+            background: linear-gradient(135deg, #388e3c, #4caf50);
+            color: white;
+            border-bottom-right-radius: 5px;
+            margin-right: 5px;
+        }
+
+        .bot-message {
+            align-self: flex-start;
+            background-color: white;
+            color: #333;
+            border: 1px solid #ddd;
+            border-bottom-left-radius: 5px;
+            margin-left: 5px;
+            width: fit-content;
+            max-width: 85%;
+        }
+
+        .chat-input {
+            display: flex;
+            padding: 15px;
+            border-top: 1px solid #ddd;
+            background-color: white;
+            border-radius: 0 0 15px 15px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            outline: none;
+            transition: 0.3s;
+            max-width: calc(100% - 70px);
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        .chat-input input:focus {
+            border-color: #388e3c;
+        }
+
+        .chat-input button {
+            background: linear-gradient(135deg, #388e3c, #4caf50);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin-left: 10px;
+            cursor: pointer;
+            border-radius: 25px;
+            transition: 0.3s;
+            white-space: nowrap;
+            font-size: 14px;
+        }
+
+        .chat-input button:hover {
+            background: linear-gradient(135deg, #2e7d32, #388e3c);
+        }
+
+        .clear-chat {
+            background: #d32f2f;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 15px;
+            font-size: 12px;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .trash-icon {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .clear-chat:hover {
+            background: #b71c1c;
+        }
+
+        .typing-indicator {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #f1f1f1;
+            border-radius: 18px;
+            margin: 5px 0 5px 5px;
+            align-self: flex-start;
+        }
+
+        .typing-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #888;
+            margin: 0 2px;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+
+            0%,
+            60%,
+            100% {
+                transform: translateY(0);
+            }
+
+            30% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .not-found-wrapper {
+            width: calc(100% - 25px);
+            max-width: 100%;
+            box-sizing: border-box;
+            margin-left: 5px;
+        }
+
+        .not-found-message {
+            color: #2e7d32;
+            margin-bottom: 15px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .question-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0 0 15px 0;
+            width: 100%;
+        }
+
+        .question-item {
+            color: #1b5e20;
+            margin-bottom: 8px;
+            padding: 8px 10px 8px 25px;
+            position: relative;
+            cursor: pointer;
+            width: 100%;
+            box-sizing: border-box;
+            background-color: #f1f8e9;
+            border-radius: 8px;
+            transition: background-color 0.2s;
+            font-size: 13px;
+            line-height: 1.3;
+            word-break: break-word;
+        }
+
+        .question-item:hover {
+            background-color: #dcedc8;
+        }
+
+        .question-item:before {
+            content: "•";
+            position: absolute;
+            left: 10px;
+            color: #2e7d32;
+            font-weight: bold;
+        }
+
+        .timestamp {
+            font-size: 11px;
+            color: #757575;
+            margin-top: 5px;
+            text-align: right;
+        }
+
+        .user-message .timestamp {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .message-container {
+            width: 100%;
+            margin-bottom: 15px;
+            scroll-margin-top: 10px;
+        }
+
+        .user-question {
+            font-weight: bold;
+            color: #1b5e20;
+            margin: 10px 0 5px 0;
+            font-size: 14px;
+            padding-left: 10px;
+        }
+
+        .bot-response {
+            background-color: white;
+            color: #333;
+            border: 1px solid #ddd;
+            border-radius: 15px;
+            padding: 12px 15px;
+            width: fit-content;
+            max-width: 85%;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .auto-scroll {
+            scroll-behavior: smooth;
+        }
+
+        .welcome-message {
+            color: #2e7d32;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+    </style>
+    </head>
+
+    <body>
+        <!-- Botón flotante para abrir el chat -->
+        <div class="chat-button-container">
+            <span class="chat-text">Chat de Soporte</span>
+            <button class="chat-button" onclick="toggleChat()"><span class="chat-icon"></span></button>
+        </div>
+
+        <!-- Contenedor principal del chat -->
+        <div class="chat-container" id="chatContainer">
+            <div class="chat-header">
+                <div class="chat-title">Asistente de la Aplicación</div>
+                <button class="clear-chat" onclick="clearChat()"><span class="trash-icon"></span> Limpiar</button>
+            </div>
+
+            <!-- Área de mensajes -->
+            <div class="chat-body" id="chatBody"></div>
+
+            <!-- Entrada de texto -->
+            <div class="chat-input">
+                <input type="text" id="userInput" placeholder="Escribe tu pregunta..."
+                    onkeypress="handleKeyPress(event)">
+                <button onclick="sendMessage()">Enviar</button>
+            </div>
+        </div>
+
+        <script>
+            // Base de conocimiento: Preguntas y respuestas
+            const responses = {
+                "como creo una evidencia": {
+                    question: "¿Cómo creo un informe?",
+                    answer: "<strong>Para crear un informe:</strong><br><br>1. Ingresa con tu usuario y contraseña<br>2. Ve al apartado de 'Crear informe'<br>3. Completa los campos requeridos<br>4. Sube los archivos necesarios<br>5. Guarda tu informe"
+                },
+                "que hago si no puedo subir una evidencia": {
+                    question: "¿Qué hago si no puedo subir un informe?",
+                    answer: "<strong>Si tienes problemas para subir un informe:</strong><br><br>1. Verifica tu conexión a internet<br>2. Asegúrate que los archivos cumplan con los formatos requeridos<br>3. Si el problema persiste, habla con el administrador para encontrar una solución"
+                },
+                "que pasa si se me cae la aplicacion": {
+                    question: "¿Qué pasa si se me cae la aplicación?",
+                    answer: "<strong>Si la aplicación se cierra inesperadamente:</strong><br><br>1. Intenta reiniciar la aplicación<br>2. Verifica si hay actualizaciones disponibles<br>3. Si el problema continúa, envía un mensaje a soporte técnico describiendo lo que ocurrió"
+                },
+                "como contacto al administrador": {
+                    question: "¿Cómo contacto al administrador?",
+                    answer: "<strong>Puedes contactar al administrador:</strong><br><br>- Por correo electrónico: admin@evidencias.com<br>- Por teléfono: +1234567890<br>- Directamente en la oficina de sistemas"
+                },
+                "donde veo mis evidencias": {
+                    question: "¿Dónde veo mis informes?",
+                    answer: "<strong>Para ver tus evidencias:</strong><br><br>1. Inicia sesión en la aplicación<br>2. Ve al menú 'Mis evidencias'<br>3. Allí encontrarás un listado de todas las evidencias que has subido"
+                },
+                "puedo editar una evidencia": {
+                    question: "¿Puedo editar una evidencia?",
+                    answer: "<strong>Sí, puedes editar una evidencia:</strong><br><br>1. Ve a 'Mis evidencias'<br>2. Busca la evidencia que deseas editar<br>3. Haz clic en el botón 'Editar'<br>4. Realiza los cambios necesarios<br>5. Guarda los cambios<br><br><strong>Nota:</strong> Solo puedes editar evidencias que no hayan sido revisadas aún"
+                },
+                "que formatos acepta": {
+                    question: "¿Qué formatos de imagen acepta?",
+                    answer: "<strong>La aplicación acepta los siguientes formatos:</strong><br><br>- Imágenes: JPG, PNG <br>- Tamaño máximo por archivo: 20MB"
+                },
+                "olvide mi contraseña": {
+                    question: "¿Olvidé mi contraseña?",
+                    answer: "<strong>Si olvidaste tu contraseña:</strong><br><br>1. En la pantalla de login, haz clic en '¿Olvidaste tu contraseña?'<br>2. Ingresa tu correo electrónico registrado<br>3. Sigue las instrucciones que recibirás por correo<br>4. Si no recibes el correo, contacta al administrador"
+                },
+                "como creo un nuevo informe": {
+                    question: "¿Como creo un nuevo informe?",
+                    answer: "<strong>Para crear un nuevo informe:</strong><br><br>Ingresa al panel principal y haz clic en 'Nuevo Informe' o 'Crear Informe'. Luego sigue los pasos del formulario."
+                }
+            };
+
+            // Inicialización al cargar la página
+            document.addEventListener('DOMContentLoaded', function () {
+                loadMessages();
+            });
+
+            // Alternar visibilidad del chat
+            function toggleChat() {
+                let chat = document.getElementById("chatContainer");
+                chat.classList.toggle("show");
+                chat.style.display = chat.style.display === "flex" ? "none" : "flex";
+
+                if (chat.style.display === "flex") {
+                    setTimeout(() => {
+                        document.getElementById("userInput").focus();
+                        scrollToBottom();
+                    }, 300);
+                }
+            }
+
+            // Manejar la tecla Enter
+            function handleKeyPress(event) {
+                if (event.key === "Enter") {
+                    sendMessage();
+                }
+            }
+
+            // Enviar mensaje
+            function sendMessage() {
+                let input = document.getElementById("userInput");
+                let message = input.value.trim();
+                if (message === "") return;
+
+                addMessage(message, "user");
+                saveMessage(message, "user");
+                input.value = "";
+
+                scrollToBottom();
+                showTypingIndicator();
+
+                setTimeout(() => {
+                    hideTypingIndicator();
+                    let response = getResponse(message);
+
+                    if (typeof response === 'string') {
+                        addBotResponse(response, message);
+                        saveMessage(response, "bot");
+                    } else {
+                        document.getElementById("chatBody").appendChild(response);
+                        saveMessage(response.outerHTML, "bot");
+                    }
+
+                    // Desplazarse a la pregunta del usuario
+                    const lastQuestion = document.querySelector(".message-container:last-child");
+                    if (lastQuestion) {
+                        lastQuestion.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }, 1000 + Math.random() * 2000);
+            }
+
+            // Función para mostrar respuestas del bot con la pregunta del usuario arriba
+            function addBotResponse(responseText, userQuestion) {
+                let chatBody = document.getElementById("chatBody");
+
+                // Crear contenedor para pregunta y respuesta
+                const container = document.createElement("div");
+                container.className = "message-container";
+
+                // Mostrar la pregunta del usuario
+                const questionElement = document.createElement("div");
+                questionElement.className = "user-question";
+                questionElement.textContent = userQuestion;
+                container.appendChild(questionElement);
+
+                // Mostrar la respuesta del bot
+                const responseElement = document.createElement("div");
+                responseElement.className = "bot-response";
+                responseElement.innerHTML = responseText;
+
+                // Añadir timestamp
+                const now = new Date();
+                const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                const timestampElement = document.createElement("div");
+                timestampElement.className = "timestamp";
+                timestampElement.textContent = timeString;
+                responseElement.appendChild(timestampElement);
+
+                container.appendChild(responseElement);
+                chatBody.appendChild(container);
+            }
+
+            // Mostrar indicador de "escribiendo"
+            function showTypingIndicator() {
+                let chatBody = document.getElementById("chatBody");
+                let typingElement = document.createElement("div");
+                typingElement.className = "typing-indicator";
+                typingElement.id = "typingIndicator";
+                typingElement.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+                chatBody.appendChild(typingElement);
+                scrollToBottom();
+            }
+
+            // Ocultar indicador de "escribiendo"
+            function hideTypingIndicator() {
+                let typingElement = document.getElementById("typingIndicator");
+                if (typingElement) {
+                    typingElement.remove();
+                }
+            }
+
+            // Añadir mensaje al chat (para mensajes normales)
+            function addMessage(text, sender) {
+                let chatBody = document.getElementById("chatBody");
+                let messageElement = document.createElement("div");
+                messageElement.className = `message ${sender}-message`;
+
+                if (sender === "bot") {
+                    messageElement.innerHTML = text;
+                } else {
+                    messageElement.textContent = text;
+                }
+
+                // Agregar timestamp
+                const now = new Date();
+                const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                const timestampElement = document.createElement("div");
+                timestampElement.className = "timestamp";
+                timestampElement.textContent = timeString;
+                messageElement.appendChild(timestampElement);
+
+                chatBody.appendChild(messageElement);
+                scrollToBottom();
+            }
+
+            // Obtener respuesta según el mensaje
+            function getResponse(message) {
+                // Primero buscamos coincidencia exacta
+                let lowerMessage = message.toLowerCase();
+                for (let key in responses) {
+                    if (lowerMessage.includes(key) ||
+                        lowerMessage.includes(responses[key].question.toLowerCase())) {
+                        return responses[key].answer;
+                    }
+                }
+
+                // Si no hay coincidencia exacta, normalizamos el texto
+                let cleanMessage = message.toLowerCase()
+                    .replace(/[¿?]/g, '')
+                    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+                    .replace(/\b(el|la|los|las|un|una|unos|unas|de|que|es|son)\b/g, '')
+                    .replace(/\s+/g, ' ').trim();
+
+                // Buscar coincidencias parciales
+                for (let key in responses) {
+                    let cleanKey = key.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                    if (cleanMessage.includes(cleanKey)) {
+                        return responses[key].answer;
+                    }
+                }
+
+                // Si no encuentra coincidencia, mostrar listado de preguntas
+                return createQuestionList();
+            }
+
+            // Crear listado de preguntas disponibles (simplificado)
+            function createQuestionList() {
+                // Crear contenedor principal
+                const container = document.createElement("div");
+                container.className = "message bot-message not-found-wrapper";
+
+                // Crear estructura del mensaje
+                container.innerHTML = `
+                <div class="not-found-message">No encontré información sobre tu consulta. Estas son las preguntas que puedo responder:</div>
+                <ul class="question-list" id="questionList"></ul>
+            `;
+
+                // Obtener referencia a la lista de preguntas
+                const questionList = container.querySelector("#questionList");
+
+                // Evitar preguntas duplicadas
+                const uniqueQuestions = new Set();
+
+                // Agregar preguntas disponibles
+                for (let key in responses) {
+                    const questionText = responses[key].question;
+                    if (!uniqueQuestions.has(questionText)) {
+                        uniqueQuestions.add(questionText);
+
+                        const questionItem = document.createElement("li");
+                        questionItem.className = "question-item";
+                        questionItem.textContent = questionText;
+                        questionItem.onclick = function () {
+                            document.getElementById("userInput").value = questionText;
+                            sendMessage();
+                        };
+                        questionList.appendChild(questionItem);
+                    }
+                }
+
+                return container;
+            }
+
+            // Guardar mensaje en el historial
+            function saveMessage(text, sender) {
+                let messages = JSON.parse(localStorage.getItem('chatMessages') || '[]');
+                messages.push({ text, sender });
+                localStorage.setItem('chatMessages', JSON.stringify(messages));
+            }
+
+            // Cargar mensajes del historial
+            function loadMessages() {
+                let messages = JSON.parse(localStorage.getItem('chatMessages') || '[]');
+
+                // Limpiar el chat antes de cargar los mensajes
+                document.getElementById("chatBody").innerHTML = "";
+
+                // Si no hay mensajes, mostrar el mensaje inicial
+                if (messages.length === 0) {
+                    const welcomeMessage = `
+                    <div class="welcome-message">
+                        Hola, soy tu asistente para la aplicación de evidencias. 
+                        <br><br>
+                        Puedo ayudarte con información sobre cómo crear informes, solucionar problemas técnicos, contactar al administrador y más.
+                        <br><br>
+                        ¿En qué puedo ayudarte hoy?
+                    </div>
+                `;
+                    addMessage(welcomeMessage, "bot");
+                    saveMessage(welcomeMessage, "bot");
+                    return;
+                }
+
+                // Cargar todos los mensajes del historial
+                messages.forEach(msg => {
+                    if (msg.text.startsWith('<div class="message bot-message not-found-wrapper">') ||
+                        msg.text.startsWith('<div class="bot-message">')) {
+                        const temp = document.createElement('div');
+                        temp.innerHTML = msg.text;
+                        document.getElementById("chatBody").appendChild(temp.firstChild);
+                    } else {
+                        addMessage(msg.text, msg.sender);
+                    }
+                });
+
+                // Desplazarse al final del historial
+                scrollToBottom();
+
+                // Si el último mensaje fue del usuario, regenerar la respuesta
+                if (messages.length > 0 && messages[messages.length - 1].sender === "user") {
+                    const lastUserMessage = messages[messages.length - 1].text;
+
+                    showTypingIndicator();
+
+                    setTimeout(() => {
+                        hideTypingIndicator();
+                        let response = getResponse(lastUserMessage);
+
+                        if (typeof response === 'string') {
+                            addBotResponse(response, lastUserMessage);
+                            saveMessage(response, "bot");
+                        } else {
+                            document.getElementById("chatBody").appendChild(response);
+                            saveMessage(response.outerHTML, "bot");
+                        }
+
+                        // Desplazarse a la pregunta del usuario
+                        const lastQuestion = document.querySelector(".message-container:last-child");
+                        if (lastQuestion) {
+                            lastQuestion.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                        }
+                    }, 1000);
+                }
+            }
+
+            // Limpiar el chat
+            function clearChat() {
+                if (confirm("¿Estás seguro de que quieres borrar toda la conversación?")) {
+                    localStorage.removeItem('chatMessages');
+                    document.getElementById("chatBody").innerHTML = "";
+
+                    const welcomeMessage = `
+                    <div class="welcome-message">
+                        Hola, soy tu asistente para la aplicación de evidencias. 
+                        <br><br>
+                        Puedo ayudarte con información sobre cómo crear informes, solucionar problemas técnicos, contactar al administrador y más.
+                        <br><br>
+                        ¿En qué puedo ayudarte hoy?
+                    </div>
+                `;
+                    addMessage(welcomeMessage, "bot");
+                    saveMessage(welcomeMessage, "bot");
+                }
+            }
+
+            // Función para hacer scroll al final del chat
+            function scrollToBottom() {
+                const chatBody = document.getElementById("chatBody");
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }
+        </script>
+
+
+        {% block contenido %}{% endblock %}
+        </div>
+    </body>
+
+</html>

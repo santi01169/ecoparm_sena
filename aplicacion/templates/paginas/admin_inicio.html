@@ -1,0 +1,138 @@
+{% extends "paginas/base_interfaz_admin.html" %}
+{% load static %}
+
+{% block titulo %}Admin_Dashboard{% endblock %}    
+
+{% block estilos %}{% endblock %}
+
+{% block contenido %}
+<main class="main-content">
+    <div class="tab-content">
+        <!-- Panel: Dashboard -->
+        <section class="tab-pane active" id="dashboard">
+            <div class="dashboard">
+                <div class="dashboard-header">
+                    <h1 class="dashboard-title">Dashboard</h1>
+                    <div class="dashboard-actions">
+                        <button class="btn btn-outline"><i class="fas fa-download"></i> Exportar</button>
+                        <button class="btn btn-primary"><i class="fas fa-plus"></i> Nuevo</button>
+                    </div>
+                </div>
+
+                <!-- Estadísticas -->
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-icon blue"><i class="fas fa-users"></i></div>
+                        <div class="stat-info">
+                            <div class="stat-value">145</div>
+                            <div class="stat-label">Usuarios Totales</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon green"><i class="fas fa-folder"></i></div>
+                        <div class="stat-info">
+                            <div class="stat-value">843</div>
+                            <div class="stat-label">Evidencias</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon orange"><i class="fas fa-database"></i></div>
+                        <div class="stat-info">
+                            <div class="stat-value">12</div>
+                            <div class="stat-label">Copias de Seguridad</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon red"><i class="fas fa-exclamation-triangle"></i></div>
+                        <div class="stat-info">
+                            <div class="stat-value">3</div>
+                            <div class="stat-label">Alertas</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Usuarios recientes -->
+                <section class="section">
+                    <div class="section-header">
+                        <h2 class="section-title">Usuarios Recientes</h2>
+                        <a href="#" class="btn btn-outline">Ver Todos</a>
+                    </div>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Usuario</th>
+                                    <th>Rol</th>
+                                    <th>Estado</th>
+                                    <th>Última Actividad</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="user-info">
+                                            <img src="{% static 'aplicacion/images/avatar.png' %}" alt="User" class="avatar">
+                                            <div>
+                                                <div class="user-name">Juan Pérez</div>
+                                                <div class="user-email">juan@example.com</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Administrador</td>
+                                    <td><span class="badge badge-success">Activo</span></td>
+                                    <td>Hace 5 min</td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <div class="btn-icon edit"><i class="fas fa-pencil-alt"></i></div>
+                                            <div class="btn-icon delete"><i class="fas fa-trash"></i></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Evidencias recientes -->
+                <section class="section">
+                    <div class="section-header">
+                        <h2 class="section-title">Evidencias Recientes</h2>
+                        <a href="#" class="btn btn-outline">Ver Todas</a>
+                    </div>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Categoría</th>
+                                    <th>Subida por</th>
+                                    <th>Fecha</th>
+                                    <th>Tamaño</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Informe_PDF.pdf</td>
+                                    <td>Reporte</td>
+                                    <td>Maria López</td>
+                                    <td>2025-04-30</td>
+                                    <td>1.2 MB</td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <div class="btn-icon edit"><i class="fas fa-eye"></i></div>
+                                            <div class="btn-icon edit"><i class="fas fa-download"></i></div>
+                                            <div class="btn-icon delete"><i class="fas fa-trash"></i></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </section>
+    </div>
+</main>
+{% endblock %}

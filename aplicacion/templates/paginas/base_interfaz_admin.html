@@ -1,0 +1,102 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{% static 'aplicacion/images/logo_oficina_gestion_riesgo.png' %}">
+    <title>{% block titulo %}Inicio_Admin{% endblock %}</title>
+
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="{% static 'aplicacion/css/style_base_admin2.css' %}">
+    {% block estilos %}{% endblock %}
+</head>
+
+<body>
+    <!-- Scripts -->
+    <script src="{% static 'aplicacion/js/script_inicio_admin.js' %}" defer></script>
+    <script src="{% static 'aplicacion/js/script_accesibilidad.js' %}" defer></script>
+
+
+    <!-- Header móvil -->
+    <header class="mobile-header">
+        <button class="menu-toggle" id="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="logo">ECOPARM</div>
+    </header>
+
+    <div class="container">
+        <!-- Barra lateral -->
+        <nav class="sidebar" id="sidebar">
+            <ul class="menu">
+                <li class=" perfil-item {% if active_section == 'perfil' %}active{% endif %}">
+                    <a href="{% url 'admin_perfil' %}">
+                        <div class="menu-item-content profile-content">
+                            <div class="barra-profile-photo">
+                                <img src="{% if request.user.foto_perfil %}{{ request.user.foto_perfil.url }}{% else %}{% static 'aplicacion/images/usuario.png' %}{% endif %}"
+                                    alt="Foto de perfil" class="barra-profile-img">
+                    </a>
+    </div>
+    <span class="barra-username">{{ request.user.nombre }} {{ request.user.apellido }}</span>
+    </div>
+
+    </li>
+    <hr>
+    <li class="menu-item {% if active_section == 'evidencias' %}active{% endif %}">
+        <a href="{% url 'admin_dashboard' %}">
+            <div class="menu-item-content">
+                <i class="fas fa-folder-open"></i>
+                <span>DASHBOARD</span>
+            </div>
+        </a>
+    </li>
+    <li class="menu-item {% if active_section == 'evidencias' %}active{% endif %}">
+        <a href="{% url 'admin_users' %}">
+            <div class="menu-item-content">
+                <i class="fas fa-folder-open"></i>
+                <span>USUARIOS</span>
+            </div>
+        </a>
+    </li>
+    <li class="menu-item {% if active_section == 'evidencias' %}active{% endif %}">
+        <a href="{% url 'admin_evidencias' %}">
+            <div class="menu-item-content">
+                <i class="fas fa-folder-open"></i>
+                <span>EVIDENCIAS</span>
+            </div>
+        </a>
+    </li>
+    <li class="menu-item {% if active_section == 'evidencias' %}active{% endif %}">
+        <a href="{% url 'admin_flora_fauna' %}">
+            <div class="menu-item-content">
+                <i class="fas fa-folder-open"></i>
+                <span>FLORA/FAUNA</span>
+            </div>
+        </a>
+    </li>
+    <li class="menu-item {% if active_section == 'evidencias' %}active{% endif %}">
+        <a href="{% url 'admin_copias_seguridad' %}">
+            <div class="menu-item-content">
+                <i class="fas fa-folder-open"></i>
+                <span>COPIAS DE SEGURIDAD</span>
+            </div>
+        </a>
+    </li>
+    <li class="menu-item {% if active_section == 'evidencias' %}active{% endif %}">
+        <a href="{% url 'index' %}">
+            <div class="menu-item-content">
+                <i class="fas fa-folder-open"></i>
+                <span>CERRAR SESION</span>
+            </div>
+        </a>
+    </li>
+    </ul>
+    </nav>
+
+    {% block contenido %}{% endblock %}
+    </div>
+</body>
+
+</html>

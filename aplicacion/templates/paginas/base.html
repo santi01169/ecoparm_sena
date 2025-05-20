@@ -1,0 +1,202 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{% static 'aplicacion/images/logo_oficina_gestion_riesgo.png' %}">
+    <title>{% block titulo %}ECOPARM{% endblock %}</title>
+    
+    <!-- Estilos -->
+    <link rel="stylesheet" href="{% static 'aplicacion/css/style_base3.css' %}">
+    <link rel="stylesheet" href="{% static 'aplicacion/css/style_login_modal2.css' %}">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Shrikhand&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Allura&display=swap" rel="stylesheet">
+    {% block estilos %}{% endblock %}
+
+</head>
+<body>
+    <!-- Scripts -->
+    <script src="{% static 'aplicacion/js/loader.js' %}" defer></script>
+    <script src="{% static 'aplicacion/js/script_clima.js' %}" defer></script>
+    <script src="{% static 'aplicacion/js/script_accesibilidad.js' %}" defer></script>
+    <script src="{% static 'aplicacion/js/modal_login.js' %}" defer></script>
+    {% block scripts %}{% endblock %}
+
+    <!-- Loader -->
+    <div id="overlay">
+        <img class="loader-bird" src="{% static 'aplicacion/images/fondo_loader.gif' %}" alt="Pájaro en los páramos">
+        <div class="loader-text">Cargando...</div>
+    </div>
+
+    <!-- Modal de Login -->
+    <div id="loginModal" class="modal_login">
+        <div class="modal-background"></div>
+        <div class="wrapper">
+            <div class="title">Inicio de Sesión</div>
+                {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li class="alert {{ message.tags }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            <span class="close-modal">&times;</span>
+            <form id="loginForm" method="POST" action="{% url 'login' %}">
+                {% csrf_token %}
+                <div class="field">
+                    <select id="tipo-usuario" name="tipo_usuario" required>
+                        <option value="" disabled selected></option>
+                        <option value="administrador">Administrador</option>
+                        <option value="guardaparamo">Guardaparamo</option>
+                    </select>
+                    <label for="tipo-usuario">Tipo Usuario</label>
+                </div>
+                <div class="field">
+                    <input type="text" id="cedula" name="cedula" required>
+                    <label for="cedula">Cédula</label>
+                </div>
+                <div class="field">
+                    <input type="password" id="password" name="password" required>
+                    <label for="password">Contraseña</label>
+                </div>
+
+                <div class="field">
+                    <input type="submit" value="Ingresar" class="btn-login">  <!-- Botón de submit -->
+                </div>
+                <p style="text-align: center;">
+                    <a href="{% url 'password_reset' %}">¿Olvidaste tu contraseña?</a>
+
+                </p>
+            </form>
+        </div>
+    </div>
+    <!-- Modal de Recuperación de Contraseña -->
+<div id="passwordRecoveryModal" class="modal" style="display:none;">
+    <div class="modal-content">
+        <span class="close-recovery-modal">&times;</span>
+        <h2>Recuperar Contraseña</h2>
+        <form id="recoveryForm">
+            {% csrf_token %}
+            <label for="recovery-identifier">Correo o Cédula:</label>
+            <input type="text" id="recovery-identifier" name="identifier" required>
+
+            <button type="submit">Enviar Enlace de Recuperación</button>
+        </form>
+        <div id="recovery-message" style="margin-top: 1em;"></div>
+    </div>
+</div>
+
+    
+
+    <!-- Navbar -->
+    <nav>
+        <input type="checkbox" id="check">
+        <label for="check" class="checkbtn">
+            <i class="fas fa-bars"></i>
+        </label>
+        <a href="{% url 'index' %}" class="enlace">
+            <img src="{% static 'aplicacion/images/logo_oficina_gestion_riesgo.png' %}" class="logonav" alt="Logo">
+        </a>
+        <ul class="menu">
+            <li><a href="{% url 'index' %}"><i class="fas fa-home"></i> Inicio</a></li>
+            <li><a href="{% url 'nosotros' %}"><i class="fas fa-users"></i> Nosotros</a></li>
+            <li><a href="{% url 'portafolio' %}"><i class="fas fa-images"></i> Portafolio</a></li>
+            <li><a href="#" id="loginBtn"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+        </ul>
+    </nav>
+
+    <!-- Botón de clima -->
+    <button id="toggleClima">
+        🌦️ <span id="textoClima" style="display: none;"></span>
+    </button>    
+    <!-- Información del clima -->
+    <div id="clima" style="display:none;">
+        <p id="ciudad"></p>
+        <p id="temperatura"></p>
+        <p id="humedad"></p>
+        <p id="descripcion"></p>
+    </div>
+
+    <!-- Contenido principal -->
+    <main>
+        <div class="fondo-base">
+            {% block contenido %}
+            {% endblock %}
+        </div>
+    </main>
+
+     <!-- Footer -->
+    <footer class="site-footer">
+        <!-- Contenido del footer sin cambios -->
+        <div class="footer-container">
+            <!-- Columna 1: Logo y descripción -->
+            <div class="footer-brand">
+                <img src="{% static 'aplicacion/images/ecoparm.png' %}" alt="ECOPARM" class="footer-logo">
+                <p class="footer-description">Protegiendo los páramos colombianos</p>
+                <div class="footer-mobile-social">
+                </div>
+            </div>
+
+            <!-- Columna 2: Horarios -->
+            <div class="footer-horario">
+                <h3 class="footer-title">Horarios de Atención</h3>
+                <div class="schedule-item">
+                    <i class="far fa-clock"></i>
+                    <div>
+                        <p>Lunes a Viernes</p>
+                        <p>8:00 am - 12:00 pm</p>
+                        <p>2:00 pm - 5:00 pm</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Columna 3: Enlaces rápidos -->
+            <div class="footer-links">
+                <h3 class="footer-title">Enlaces rápidos</h3>
+                <ul>
+                    <li><a href="{% url 'index' %}"><i class="fas fa-chevron-right"></i> Inicio</a></li>
+                    <li><a href="{% url 'nosotros' %}"><i class="fas fa-chevron-right"></i> Nosotros</a></li>
+                    <li><a href="{% url 'portafolio' %}"><i class="fas fa-chevron-right"></i> Portafolio</a></li>
+                    <li><a href="#" id="footerLoginBtn"><i class="fas fa-chevron-right"></i> Login</a></li>
+                </ul>
+            </div>
+
+            <!-- Columna 4: Contacto -->
+            <div class="footer-contactanos">
+                <h3 class="footer-title">Contáctanos</h3>
+                <ul>
+                    <li>
+                        <i class="fas fa-envelope"></i>
+                        <a href="mailto:habitad@ogamoso-boyaca.gov.co">habitad@ogamoso-boyaca.gov.co</a>
+                    </li>                    
+                    <li>
+                        <i class="fas fa-phone"></i>
+                        <a href="tel:6087702040">(608) 7702040</a>
+                    </li>                    
+                    <li>
+                        <i class="fas fa-map-marker-alt"></i>
+                        <a href="https://maps.google.com/?q=Cra. 11 #14-164, Sogamoso" target="_blank">Cra. 11 #14-164, Sogamoso</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Columna 5: Redes sociales (solo en desktop) -->
+            <div class="footer-social">
+                <h3 class="footer-title">Síguenos</h3>
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/share/1BKxxcqc5y/?mibextid=wwXIfr" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/alcaldiadesogamoso?igsh=MWFvOG43bGxkdHJudA==" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.tiktok.com/@alcaldiasogamosoficial?_t=ZS-8vECL5TQSOe&_r=1" target="_blank"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2024 ECOPARM. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>

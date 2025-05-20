@@ -1,0 +1,146 @@
+{% extends "paginas/base.html" %}
+
+{% load static %}
+
+{% block titulo %}Nosotros{% endblock %}
+
+{% block estilos %}
+<link rel="stylesheet" href="{% static 'aplicacion/css/style_nosotros.css' %}">
+{% endblock %}
+
+{% block contenido %}
+{% block scripts %}
+<script src="{% static 'aplicacion/js/script_video_automatico.js' %}" defer></script>
+{% endblock %}
+
+<div class="fondo">
+    <h2><i class="fas fa-users"></i> Nosotros</h2>
+
+    <div class="historia-paramo">
+        <div class="hero-section">
+            <video class="hero-image" autoplay muted loop playsinline>
+                <source src="{% static 'aplicacion/video/video_paramo_nosotros.mp4' %}" type="video/mp4">
+                Tu navegador no soporta el video HTML5.
+            </video>            
+            <div class="hero-text">
+                <h1>Páramo de Siscunsí</h1>
+                <p>Ecosistema vital del altiplano cundiboyacense</p>
+            </div>
+        </div>
+
+        <div class="seccion-con-imagen">
+            <div class="texto-columna">
+                <h3><i class="fas fa-mountain"></i> Historia del Páramo</h3>
+                <p>Ubicado entre Sogamoso, Mongua, Monguí y Aquitania, es una fuente vital de agua para la región. </p>
+                <p>El Páramo de Siscunsí forma parte del sistema de páramos de la cordillera Oriental de los Andes, y es
+                    una de las fuentes hídricas más importantes del altiplano cundiboyacense. Este ecosistema se ha
+                    consolidado como un lugar estratégico para el abastecimiento de agua, la conservación de la
+                    biodiversidad y la identidad cultural de las comunidades rurales de Sogamoso y municipios vecinos.
+                </p>
+            </div>
+            <div class="imagen-columna">
+                <img src="{% static 'aplicacion/images/nosotros/historia.jpeg' %}" alt="Historia del páramo"
+                    class="imagen-destacada">
+            </div>
+        </div>
+
+        <!-- Tarjetas informativas -->
+        <div class="tarjetas-container">
+            <div class="tarjeta">
+                <div class="tarjeta-icono">
+                    <i class="fas fa-landmark"></i>
+                </div>
+                <h3>Importancia Cultural</h3>
+                <p>Lugar sagrado para los Muiscas, considerado zona de ofrendas y conexión espiritual con sus deidades.
+                </p>
+                <img src="{% static 'aplicacion/images/nosotros/cultura.png' %}" alt="Cultura Muisca" class="tarjeta-imagen">
+            </div>
+
+            <div class="tarjeta">
+                <div class="tarjeta-icono">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h3>Conflictos Ambientales</h3>
+                <ul>
+                    <li>Expansión ganadera y agrícola</li>
+                    <li>Actividades mineras</li>
+                    <li>Cambio climático</li>
+                </ul>
+                <img src="{% static 'aplicacion/images/nosotros/conflictos_ambientales.png' %}" alt="Conflictos ambientales"
+                    class="tarjeta-imagen">
+            </div>
+
+            <div class="tarjeta">
+                <div class="tarjeta-icono">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>Protección</h3>
+                <p>Parte del Plan Nacional de Páramos, con proyectos de conservación liderados por CAR, universidades y
+                    comunidades.</p>
+                <img src="{% static 'aplicacion/images/nosotros/proteccion_paramo.png' %}" alt="Protección del páramo"
+                    class="tarjeta-imagen">
+            </div>
+        </div>
+
+        <!-- Línea de tiempo -->
+        <div class="linea-tiempo">
+            <h3><i class="fas fa-history"></i> Línea de Tiempo</h3>
+            <div class="evento">
+                <div class="fecha">Pleistoceno</div>
+                <div class="contenido">
+                    <h4>Formación del páramo</h4>
+                    <p>Se formó durante las últimas glaciaciones, desarrollando un ecosistema único.</p>
+                </div>
+            </div>
+            <div class="evento">
+                <div class="fecha">Época Muisca</div>
+                <div class="contenido">
+                    <h4>Lugar sagrado</h4>
+                    <p>Considerado zona espiritual y de ofrendas por los indígenas Muiscas.</p>
+                </div>
+            </div>
+            <div class="evento">
+                <div class="fecha">Siglo XX-XXI</div>
+                <div class="contenido">
+                    <h4>Presiones humanas</h4>
+                    <p>Expansión agrícola, ganadera y minera amenazan el ecosistema.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="fondo">
+    <h2><i class="fas fa-map-marked-alt"></i> Ubicaciones</h2>
+
+    <div class="video-container">
+        <div class="ubicacion">
+            <h3><i class="fas fa-video"></i> Conócenos</h3>
+            <video id="video-ubicacion" class="video-full" muted playsinline>
+                <source src="{% static 'aplicacion/video/video_ubicacion.mp4' %}" type="video/mp4">
+                Tu navegador no soporta el elemento de video.
+            </video>
+        </div>
+    </div>
+
+    <div class="ubicaciones-grid">
+        <div class="ubicacion">
+            <h3><i class="fas fa-tree"></i> Páramo de Siscunsí</h3>
+            <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3970.505860147124!2d-72.79601142021873!3d5.639689679751475!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e6a4d69f00a940b%3A0x88ef1914f548f0a1!2zUMOhcmFtbyBkZSBTaXNjdW5zw60!5e0!3m2!1ses!2sco!4v1742474693734!5m2!1ses!2sco"
+                width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade" title="Mapa del Páramo de Siscunsí">
+            </iframe>
+        </div>
+
+        <div class="ubicacion">
+            <h3><i class="fas fa-warehouse"></i> Oficina de Gestión del Riesgo</h3>
+            <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d992.4909660275465!2d-72.92701923042803!3d5.718344699641485!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e6a45deea47d4d5%3A0xc44a465a5a8bb680!2sCra.%2011%20%2314-164%2C%20Sogamoso%2C%20Boyac%C3%A1!5e0!3m2!1ses!2sco!4v1742474581383!5m2!1ses!2sco"
+                width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade" title="Mapa de la Oficina de Gestión del Riesgo">
+            </iframe>
+        </div>
+    </div>
+</div>
+{% endblock %}

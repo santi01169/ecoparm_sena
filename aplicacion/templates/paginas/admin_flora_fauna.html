@@ -1,0 +1,55 @@
+{% extends "paginas/base_interfaz_admin.html" %}
+{% load static %}
+
+{% block titulo %}Admin_Evidencias{% endblock %}
+
+{% block estilos %}
+<link rel="stylesheet" href="{% static 'aplicacion/css/style_admin_evidencias3.css' %}">
+{% endblock %}
+
+{% block contenido %}
+<main class="main-content">
+    <div class="tab-pane" id="evidence">
+        <div class="dashboard">
+            <div class="dashboard-header">
+                <h1 class="dashboard-title">Gestión de Evidencias</h1>
+                <div class="dashboard-actions">
+                    <button class="btn btn-outline">
+                        <i class="fas fa-filter"></i> Filtrar
+                    </button>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Categoría</th>
+                                <th>Subida por</th>
+                                <th>Fecha</th>
+                                <th>Tamaño</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Fila vacía de ejemplo -->
+                            <tr>
+                                <td colspan="7" style="text-align: center; color: #888;">Sin datos</td>
+                            </tr>
+
+                            <!-- Ejemplo con datos -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'aplicacion/js/script_admin_evidencias.js' %}" defer></script>
+{% endblock %}

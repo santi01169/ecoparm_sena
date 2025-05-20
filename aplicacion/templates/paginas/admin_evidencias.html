@@ -1,0 +1,69 @@
+{% extends "paginas/base_interfaz_admin.html" %}
+{% load static %}
+
+{% block titulo %}Admin_Evidencias{% endblock %}
+
+{% block estilos %}
+<link rel="stylesheet" href="{% static 'aplicacion/css/style_admin_evidencias3.css' %}">
+<!-- Font Awesome para íconos -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+{% endblock %}
+
+{% block contenido %}
+<main class="main-content">
+    <div class="tab-pane" id="evidence">
+        <div class="dashboard">
+            <div class="dashboard-header">
+                <h1 class="dashboard-title">Gestión de Evidencias</h1>
+            </div>
+
+            <!-- Tabla de evidencias actualizada -->
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Fecha</th>
+                            <th>Subida por</th>
+                            <th>Actividad</th>
+                            <th>Ubicación</th>
+                            <th>Observaciones</th>
+                            <th>URL Evidencia</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for evidencia in evidencias %}
+                        <tr data-id="{{ evidencia.id }}">
+                            <td>{{ forloop.revcounter }}</td>
+                            <td>{{ evidencia.fecha_subida|date:"Y-m-d H:i" }}</td>
+                            <td>{{ evidencia.usuario_nombre }}</td>
+                            <td>{{ evidencia.actividad }}</td>
+                            <td>{{ evidencia.ubicacion }}</td>
+                            <td>{{ evidencia.observaciones }}</td>
+                            <td>
+                                <a href="{{ evidencia.archivo_url }}" target="_blank">Ver Evidencia</a>
+                            </td>
+                            <td>
+                                <a href="{% url 'descargar_evidencia_pdf' evidencia.id %}" 
+                                   class="btn-icon" 
+                                   title="Descargar PDF" 
+                                   target="_blank">
+                                    <i class="fas fa-download"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr><td colspan="8">No hay evidencias registradas.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'aplicacion/js/script_admin_evidencias.js' %}" defer></script>
+{% endblock %}

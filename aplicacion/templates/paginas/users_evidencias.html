@@ -1,0 +1,127 @@
+{% extends "paginas/base_interfaz_user.html" %}
+{% load static %}
+
+{% block titulo %}Users_Evidencias{% endblock %}
+
+{% block estilos %}
+<link rel="stylesheet" href="{% static 'aplicacion/css/style_admin_evidencias3.css' %}">
+{% endblock %}
+
+{% block contenido %}
+{% block scripts %}
+<script src="{% static 'aplicacion/js/script_users_evidencias.js' %}"></script>
+{% endblock %}
+<main class="main-content">
+    <div class="tab-pane" id="evidence">
+        <div class="dashboard">
+            <div class="dashboard-header">
+                <h1 class="dashboard-title">Gestión de Evidencias</h1>
+                <div class="dashboard-actions">
+                    <button class="btn btn-primary" id="add-evidence-btn">
+                        <i class="fas fa-plus"></i> Nueva Evidencia
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tabla de evidencias actualizada -->
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Fecha</th>
+                            <th>Subida por</th>
+                            <th>Actividad</th>
+                            <th>Ubicación</th>
+                            <th>Observaciones</th>
+                            <th>URL Evidencia</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for evidencia in evidencias %}
+                        <tr data-id="{{ evidencia.id }}">
+                            <td>{{ forloop.revcounter }}</td>
+                            <td>{{ evidencia.fecha_subida|date:"Y-m-d H:i" }}</td>
+                            <td>{{ evidencia.usuario_nombre }}</td>
+                            <td>{{ evidencia.actividad }}</td>
+                            <td>{{ evidencia.ubicacion }}</td>
+                            <td>{{ evidencia.observaciones }}</td>
+                            <td>
+                                <a href="{{ evidencia.archivo_url }}" target="_blank">Ver Evidencia</a>
+                            </td>
+                            <td>
+                                <button class="btn btn-outline btn-edit">Editar</button>
+                                <button class="btn btn-danger btn-delete">Eliminar</button>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr><td colspan="7">No hay evidencias registradas.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Modal: Agregar Nueva Evidencia -->
+            <div class="modal-backdrop" id="add-evidence-modal">
+                <div class="modal">
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="modal-header">
+                            <h3 class="modal-title">Agregar Nueva Evidencia</h3>
+                            <button class="modal-close" type="button">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="form-label">Actividad</label>
+                                <input type="text" name="actividad" class="form-control" placeholder="Actividad relacionada con la evidencia" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Evidencia</label>
+                                <div class="file-upload" id="drop-area">
+                                    <label class="file-upload-label">
+                                        <div style="text-align: center;">
+                                            <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                                            <div class="upload-text">Arrastre y suelte la imagen aquí</div>
+                                            <div class="upload-hint">o haga clic para seleccionar</div>
+                                        </div>
+                                        <input type="file" name="archivo" id="file-input" class="file-upload-input" accept="image/*">
+                                    </label>
+                                    <div id="preview-container" style="display: none; margin-top: 15px;">
+                                        <img id="preview-image" src="#" alt="Preview" style="max-width: 100%; max-height: 200px;">
+                                        <button type="button" id="remove-image" class="btn btn-sm btn-danger" style="margin-top: 10px;">
+                                            <i class="fas fa-trash"></i> Eliminar imagen
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Ubicación -->
+                            <div class="campo">
+                                <label for="ubicacion">Ubicación:</label>
+                                <input class="form-control" type="text" id="ubicacion" name="ubicacion" readonly placeholder="Haz clic para obtener tu ubicación">
+                            </div>
+                            <br>
+                            <!-- Botón para Obtener Ubicación -->
+                            <div class="campo">
+                                <input class="btn btn-primary" type="button" value="Obtener Ubicación" onclick="obtenerUbicacion()">
+                            </div>
+                            <br>
+
+                            <div class="form-group">
+                                <label class="form-label">Observaciones</label>
+                                <textarea name="observaciones" class="form-control" rows="3" placeholder="Observaciones adicionales"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-outline modal-close-btn" type="button">Cancelar</button>
+                            <button class="btn btn-primary" type="submit">Subir</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

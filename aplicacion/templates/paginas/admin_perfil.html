@@ -1,0 +1,182 @@
+{% extends "paginas/base_interfaz_admin.html" %}
+{% load static %}
+
+{% block titulo %}Admin_Perfil{% endblock %}
+
+{% block estilos %}
+<link rel="stylesheet" href="{% static 'aplicacion/css/style_admin_perfil2.css' %}">
+{% endblock %}
+
+{% block contenido %}
+{% block scripts %}
+<script>
+    const CHANGE_PASSWORD_URL = "{% url 'cambiar_password' %}";
+</script>
+<script src="{% static 'aplicacion/js/script_admin_perfil1.js' %}"></script>
+{% endblock %}
+
+<main class="main-content">
+    <div class="dashboard">
+        <div class="dashboard-header">
+            <h1 class="dashboard-title">Perfil de Usuario</h1>
+            <div class="dashboard-actions">
+            </div>
+        </div>
+
+        <div class="profile-container">
+            <!-- Pestañas de navegación -->
+            <div class="profile-tabs">
+                <div class="profile-tab active" data-tab="personal-info">Información Personal</div>
+                <div class="profile-tab" data-tab="security">Seguridad</div>
+            </div>
+
+            <!-- Contenido de las pestañas -->
+            <div class="profile-content">
+                <!-- Información Personal -->
+                <div class="tab-content active" id="personal-info">
+                    <div class="profile-section">
+                        <div class="profile-photo-section">
+                            <div class="profile-photo-container">
+                                <img src="{% if request.user.foto_perfil %}{{ request.user.foto_perfil.url }}{% else %}{% static 'aplicacion/images/usuario.png' %}{% endif %}"
+                                    alt="Foto de perfil" class="profile-photo" id="profile-img-preview"
+                                    data-default-avatar="{% static 'aplicacion/images/avatar.png' %}"
+                                    data-upload-url="{% url 'actualizar_foto_perfil' %}">
+                            </div>
+                            <div class="photo-actions">
+                                <form id="photo-form" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <input type="file" id="foto-input" name="foto_perfil" accept="image/*"
+                                        style="display: none;">
+                                    <button type="button" class="btn btn-outline" id="change-photo-btn">Cambiar
+                                        Foto</button>
+                                </form>
+                                <p class="photo-recommendation">Recomendado: 256x256px (JPG, PNG)</p>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label class="form-label">Nombre</label>
+                                    <input type="text" class="form-control" value="{{ request.user.nombre }}"
+                                        placeholder="Ingrese su nombre">
+                                </div>
+                            </div>
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label class="form-label">Apellidos</label>
+                                    <input type="text" class="form-control" value="{{ request.user.apellido }}"
+                                        placeholder="Ingrese sus apellidos">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" class="form-control" value="{{ request.user.email }}"
+                                        placeholder="Ingrese su email">
+                                </div>
+                            </div>
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label class="form-label">Teléfono</label>
+                                    <input type="tel" class="form-control" value="{{ request.user.telefono }}"
+                                        placeholder="Ingrese su teléfono">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label class="form-label">Cargo</label>
+                                    <input type="text" class="form-control"
+                                        value="{{ request.user.rol.rol|default:'' }}" readonly>
+                                </div>
+                            </div>
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label class="form-label">Sector</label>
+                                    <input type="text" class="form-control"
+                                        value="{{ request.user.zona.nombre|default:'' }}" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Seguridad -->
+                <div class="tab-content" id="security">
+                    <div class="profile-section">
+                        <form id="password-form">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label class="form-label">Contraseña Actual</label>
+                                <input type="password" class="form-control" id="current-password"
+                                    name="current_password" placeholder="Introduce tu contraseña actual" required>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-col">
+                                    <div class="form-group">
+                                        <label class="form-label">Nueva Contraseña</label>
+                                        <input type="password" class="form-control" id="new-password"
+                                            name="new_password" placeholder="Introduce nueva contraseña" required>
+                                    </div>
+                                </div>
+                                <div class="form-col">
+                                    <div class="form-group">
+                                        <label class="form-label">Confirmar Contraseña</label>
+                                        <input type="password" class="form-control" id="confirm-password"
+                                            name="confirm_password" placeholder="Confirma nueva contraseña" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary" id="save-password-btn">
+                                    <i class="fas fa-save"></i> Cambiar Contraseña
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- Fin Seguridad -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Alertas ECOPARM -->
+    <div id="custom-alert" class="hidden">
+        <div class="ecoparm-alert">
+            <div class="ecoparm-alert-header">
+                <h3 class="ecoparm-alert-title" id="alert-title">Título</h3>
+            </div>
+            <div class="ecoparm-alert-body">
+                <p class="ecoparm-alert-message" id="alert-message">Mensaje aquí</p>
+                <div class="ecoparm-progress-container" id="progress-container" style="display: none;">
+                    <div class="ecoparm-progress-bar">
+                        <div class="ecoparm-progress-fill" id="progress-fill"></div>
+                    </div>
+                    <span class="ecoparm-progress-text" id="progress-text">0%</span>
+                </div>
+            </div>
+            <div class="ecoparm-alert-footer">
+                <button id="custom-alert-ok" class="ecoparm-alert-button">Aceptar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mensaje de error en línea -->
+    <div id="inline-error" class="hidden">
+        <div class="ecoparm-error-message">
+            <i class="fas fa-exclamation-circle error-icon"></i>
+            <span id="error-message-text"></span>
+        </div>
+        <div class="ecoparm-error-hint" id="error-hint-text"></div>
+    </div>
+</main>
+{% endblock %}

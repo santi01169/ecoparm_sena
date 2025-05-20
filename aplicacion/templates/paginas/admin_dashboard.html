@@ -1,0 +1,123 @@
+{% extends "paginas/base_interfaz_admin.html" %}
+{% load static %}
+
+{% block titulo %}Admin_Dashboard{% endblock %}
+
+{% block estilos %}
+<link rel="stylesheet" href="{% static 'aplicacion/css/style_admin_dashboard1.css' %}">
+{% endblock %}
+
+{% block contenido %}
+<main class="main-content">
+    <div class="tab-content">
+        <section class="tab-pane active" id="dashboard">
+            <div class="dashboard">
+                <div class="dashboard-header">
+                    <h1 class="dashboard-title">Dashboard</h1>
+                    <div class="dashboard-actions">
+                        <button class="btn btn-outline"><i class="fas fa-download"></i> Exportar</button>
+                        <button class="btn btn-primary"><i class="fas fa-plus"></i> Nuevo</button>
+                    </div>
+                </div>
+
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-icon blue"><i class="fas fa-users"></i></div>
+                        <div class="stat-info">
+                            <div class="stat-value">{{ usuarios|length }}</div>
+                            <div class="stat-label">Usuarios Totales</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon green"><i class="fas fa-folder"></i></div>
+                        <div class="stat-info">
+                            <div class="stat-value">{{ evidencias|length }}</div>
+                            <div class="stat-label">Evidencias</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon orange"><i class="fas fa-database"></i></div>
+                        <div class="stat-info">
+                            <div class="stat-value">1</div>
+                            <div class="stat-label">Copias de Seguridad</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon red"><i class="fas fa-exclamation-triangle"></i></div>
+                        <div class="stat-info">
+                            <div class="stat-value">0</div>
+                            <div class="stat-label">Alertas</div>
+                        </div>
+                    </div>
+                </div>
+
+                <section class="section">
+                    <div class="section-header">
+                        <h2 class="section-title">Usuarios Recientes</h2>
+                        <a href="#" class="btn btn-outline">Ver Todos</a>
+                    </div>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Usuario</th>
+                                    <th>Rol</th>
+                                    <th>Estado</th>
+                                    <th>Correo</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for usuario in usuarios %}
+                                <tr>
+                                    <td>{{ usuario.nombre }} {{ usuario.apellido }}</td>
+                                    <td>{{ usuario.rol.rol }}</td>
+                                    <td><span class="badge badge-success">Activo</span></td>
+                                    <td>{{ usuario.email }}</td>
+                                </tr>
+                                {% empty %}
+                                <tr><td colspan="4">No hay usuarios registrados.</td></tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <div class="section-header">
+                        <h2 class="section-title">Evidencias Recientes</h2>
+                        <a href="#" class="btn btn-outline">Ver Todas</a>
+                    </div>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Descripción</th>
+                                    <th>Usuario</th>
+                                    <th>Fecha</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for evidencia in evidencias %}
+                                <tr>
+                                    <td>{{ evidencia.nombre }}</td>
+                                    <td>{{ evidencia.descripcion }}</td>
+                                    <td>{{ evidencia.usuario.nombre }} {{ evidencia.usuario.apellido }}</td>
+                                    <td>{{ evidencia.fecha }}</td>
+                                </tr>
+                                {% empty %}
+                                <tr><td colspan="4">No hay evidencias registradas.</td></tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+            </div>
+        </section>
+    </div>
+</main>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

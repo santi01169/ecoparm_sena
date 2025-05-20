@@ -1,0 +1,125 @@
+.video {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 0 0px 5px rgba(0,0,0,0.9);
+}
+
+table {
+    width: 90%;
+}
+
+th, td {
+    border: 2px double black;    
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #32794a;
+    color: white;
+    text-align: center;
+}
+
+/* Estilo del input */
+#search {
+    width: 85%;
+    padding: 10px 0 10px 45px;
+    border: 2px solid #32794a;
+    border-radius: 30px;
+    font-size: 16px;
+    background-color: #ffffff00;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    
+}
+
+#search:focus {
+    outline: none;
+    border-color: #32794a;
+}
+
+/* Datos destacados */
+.datos-destacados {
+    display: flex;
+    justify-content: space-around;
+    margin: 1.5rem 0;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.dato {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #e8e7e236;
+    padding: 0.8rem 1.2rem;
+    border-radius: 50px;
+    box-shadow: 0 0px 5px rgba(0,0,0,0.9);
+    transition: transform 0.3s ease;
+}
+
+.dato:hover {
+    transform: translateY(-5px);
+}
+
+.dato i {
+    color: #32794a;
+}
+
+/* Galería */
+.galeria {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin: 3rem 0;
+}
+
+.galeria-item {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 0px 5px rgba(0,0,0,0.9);
+}
+
+.galeria-item img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.galeria-item:hover img {
+    transform: scale(1.05);
+}
+
+.galeria-item p {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0.8rem;
+    margin: 0;
+    background: rgba(0, 0, 0, 0.6);
+    color: rgb(255, 255, 255);
+    text-align: center;
+}
+
+/* Llamado a la acción */
+.llamado-accion {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: #e8e7e236;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 0px 5px rgba(0,0,0,0.9);
+    margin: 2rem 0;
+    border-left: 4px solid #32794a;
+}
+
+.llamado-accion i {
+    font-size: 1.5rem;
+    color: #32794a;
+}

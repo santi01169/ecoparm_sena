@@ -1,0 +1,80 @@
+{% extends "paginas/base_interfaz_user.html" %}
+{% load static %}
+
+{% block titulo %}Users_Dashboard{% endblock %}
+
+{% block estilos %}
+<link rel="stylesheet" href="{% static 'aplicacion/css/style_admin_dashboard1.css' %}">
+{% endblock %}
+
+{% block contenido %}
+<main class="main-content">
+    <div class="tab-content">
+        <!-- Panel: Dashboard -->
+        <section class="tab-pane active" id="dashboard">
+            <div class="dashboard">
+                <div class="dashboard-header">
+                    <h1 class="dashboard-title">Dashboard</h1>
+                </div>
+
+                <!-- Estadísticas -->
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-icon blue"><i class="fas fa-users"></i></div>
+                        <div class="stat-info">
+                            <div class="stat-value">0</div>
+                            <div class="stat-label">Nuevo Reporte</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon green"><i class="fas fa-folder"></i></div>
+                        <div class="stat-info">
+                        <div class="stat-value">1</div>
+                            <div class="stat-label">Nueva Evidencia</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon red"><i class="fas fa-exclamation-triangle"></i></div>
+                        <div class="stat-info">
+                            <div class="stat-value">0</div>
+                            <div class="stat-label">Alertas</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Evidencias recientes -->
+                <section class="section">
+                    <div class="section-header">
+                        <h2 class="section-title">Evidencias Recientes</h2>
+                    </div>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Categoría</th>
+                                    <th>Fecha</th>
+                                    <th>Tamaño</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Informe_PDF.pdf</td>
+                                    <td>Reporte</td>
+                                    <td>2025-04-30</td>
+                                    <td>1.2 MB</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </section>
+    </div>
+</main>
+{% endblock %}
+
+{% block scripts %}
+
+{% endblock %}
+

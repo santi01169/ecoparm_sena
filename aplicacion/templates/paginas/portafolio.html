@@ -1,0 +1,416 @@
+{% extends "paginas/base.html" %}
+
+{% load static %}
+
+{% block titulo %}Portafolio{% endblock %}
+
+{% block estilos %}
+<link rel="stylesheet" href="{% static 'aplicacion/css/style_portafolio2.css' %}">
+{% endblock %}
+
+{% block contenido %}
+{% block scripts %}
+<script src="{% static 'aplicacion/js/script_expandir_imagen2.js' %}" defer></script>
+{% endblock %}
+
+<div class="fondo">
+    <h2><i class="fas fa-camera"></i> Portafolio de Imágenes</h2>
+    
+    <div id="imageModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal-imagen-expandida">&times;</span>
+            <img id="expandedImg" class="expanded-image" src="" alt="Imagen ampliada">
+        </div>
+        <div class="nav-prev nav-btn"><i class="fas fa-chevron-left"></i></div>
+        <div class="nav-next nav-btn"><i class="fas fa-chevron-right"></i></div>
+    </div>
+
+    <div class="gallery-grid">
+        <div class="gallery-card">
+            <div class="gallery-image-container">
+                <img src="{% static 'aplicacion/images/portafolio/IMG1.jpg' %}" alt="imagen 1" class="gallery-image">
+                <div class="gallery-caption">
+                    <button class="gallery-view-btn">
+                        <i class="fas fa-expand"></i> Ampliar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="gallery-card">
+            <div class="gallery-image-container">
+                <img src="{% static 'aplicacion/images/portafolio/IMG2.jpg' %}" alt="imagen 2" class="gallery-image">
+                <div class="gallery-caption">
+                    <button class="gallery-view-btn">
+                        <i class="fas fa-expand"></i> Ampliar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="gallery-card">
+            <div class="gallery-image-container">
+                <img src="{% static 'aplicacion/images/portafolio/IMG3.jpg' %}" alt="imagen 3" class="gallery-image">
+                <div class="gallery-caption">
+                    <button class="gallery-view-btn">
+                        <i class="fas fa-expand"></i> Ampliar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="gallery-card">
+            <div class="gallery-image-container">
+                <img src="{% static 'aplicacion/images/portafolio/IMG4.jpg' %}" alt="imagen 4" class="gallery-image">
+                <div class="gallery-caption">
+                    <button class="gallery-view-btn">
+                        <i class="fas fa-expand"></i> Ampliar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="gallery-card">
+            <div class="gallery-image-container">
+                <img src="{% static 'aplicacion/images/portafolio/IMG5.jpg' %}" alt="imagen 5" class="gallery-image">
+                <div class="gallery-caption">
+                    <button class="gallery-view-btn">
+                        <i class="fas fa-expand"></i> Ampliar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="gallery-card">
+            <div class="gallery-image-container">
+                <img src="{% static 'aplicacion/images/portafolio/IMG6.jpg' %}" alt="imagen 6" class="gallery-image">
+                <div class="gallery-caption">
+                    <button class="gallery-view-btn">
+                        <i class="fas fa-expand"></i> Ampliar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="gallery-card">
+            <div class="gallery-image-container">
+                <img src="{% static 'aplicacion/images/portafolio/IMG7.jpg' %}" alt="imagen 7" class="gallery-image">
+                <div class="gallery-caption">
+                    <button class="gallery-view-btn">
+                        <i class="fas fa-expand"></i> Ampliar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="gallery-card">
+            <div class="gallery-image-container">
+                <img src="{% static 'aplicacion/images/portafolio/IMG8.jpg' %}" alt="imagen 8" class="gallery-image">
+                <div class="gallery-caption">
+                    <button class="gallery-view-btn">
+                        <i class="fas fa-expand"></i> Ampliar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="gallery-card">
+            <div class="gallery-image-container">
+                <img src="{% static 'aplicacion/images/portafolio/IMG9.jpg' %}" alt="imagen 9" class="gallery-image">
+                <div class="gallery-caption">
+                    <button class="gallery-view-btn">
+                        <i class="fas fa-expand"></i> Ampliar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="gallery-card">
+            <div class="gallery-image-container">
+                <img src="{% static 'aplicacion/images/portafolio/IMG10.jpg' %}" alt="imagen 10" class="gallery-image">
+                <div class="gallery-caption">
+                    <button class="gallery-view-btn">
+                        <i class="fas fa-expand"></i> Ampliar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="gallery-card">
+            <div class="gallery-image-container">
+                <img src="{% static 'aplicacion/images/portafolio/IMG11.jpg' %}" alt="imagen 11" class="gallery-image">
+                <div class="gallery-caption">
+                    <button class="gallery-view-btn">
+                        <i class="fas fa-expand"></i> Ampliar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="gallery-card">
+            <div class="gallery-image-container">
+                <img src="{% static 'aplicacion/images/portafolio/IMG12.jpg' %}" alt="imagen 12" class="gallery-image">
+                <div class="gallery-caption">
+                    <button class="gallery-view-btn">
+                        <i class="fas fa-expand"></i> Ampliar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="gallery-card">
+            <div class="gallery-image-container">
+                <img src="{% static 'aplicacion/images/portafolio/IMG13.jpg' %}" alt="imagen 13" class="gallery-image">
+                <div class="gallery-caption">
+                    <button class="gallery-view-btn">
+                        <i class="fas fa-expand"></i> Ampliar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="gallery-card">
+            <div class="gallery-image-container">
+                <img src="{% static 'aplicacion/images/portafolio/IMG14.jpg' %}" alt="imagen 14" class="gallery-image">
+                <div class="gallery-caption">
+                    <button class="gallery-view-btn">
+                        <i class="fas fa-expand"></i> Ampliar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="gallery-card">
+            <div class="gallery-image-container">
+                <img src="{% static 'aplicacion/images/portafolio/IMG15.jpg' %}" alt="imagen 15" class="gallery-image">
+                <div class="gallery-caption">
+                    <button class="gallery-view-btn">
+                        <i class="fas fa-expand"></i> Ampliar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="gallery-card">
+            <div class="gallery-image-container">
+                <img src="{% static 'aplicacion/images/portafolio/IMG16.jpg' %}" alt="imagen 16" class="gallery-image">
+                <div class="gallery-caption">
+                    <button class="gallery-view-btn">
+                        <i class="fas fa-expand"></i> Ampliar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="gallery-card">
+            <div class="gallery-image-container">
+                <img src="{% static 'aplicacion/images/portafolio/IMG17.jpg' %}" alt="imagen 17" class="gallery-image">
+                <div class="gallery-caption">
+                    <button class="gallery-view-btn">
+                        <i class="fas fa-expand"></i> Ampliar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="gallery-card">
+            <div class="gallery-image-container">
+                <img src="{% static 'aplicacion/images/portafolio/IMG18.jpg' %}" alt="imagen 18" class="gallery-image">
+                <div class="gallery-caption">
+                    <button class="gallery-view-btn">
+                        <i class="fas fa-expand"></i> Ampliar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="gallery-card">
+            <div class="gallery-image-container">
+                <img src="{% static 'aplicacion/images/portafolio/IMG19.jpg' %}" alt="imagen 19" class="gallery-image">
+                <div class="gallery-caption">
+                    <button class="gallery-view-btn">
+                        <i class="fas fa-expand"></i> Ampliar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="gallery-card">
+            <div class="gallery-image-container">
+                <img src="{% static 'aplicacion/images/portafolio/IMG20.jpg' %}" alt="imagen 20" class="gallery-image">
+                <div class="gallery-caption">
+                    <button class="gallery-view-btn">
+                        <i class="fas fa-expand"></i> Ampliar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="gallery-card">
+            <div class="gallery-image-container">
+                <img src="{% static 'aplicacion/images/portafolio/IMG21.jpg' %}" alt="imagen 21" class="gallery-image">
+                <div class="gallery-caption">
+                    <button class="gallery-view-btn">
+                        <i class="fas fa-expand"></i> Ampliar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="gallery-card">
+            <div class="gallery-image-container">
+                <img src="{% static 'aplicacion/images/portafolio/IMG22.jpg' %}" alt="imagen 22" class="gallery-image">
+                <div class="gallery-caption">
+                    <button class="gallery-view-btn">
+                        <i class="fas fa-expand"></i> Ampliar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="gallery-card">
+            <div class="gallery-image-container">
+                <img src="{% static 'aplicacion/images/portafolio/IMG23.jpg' %}" alt="imagen 23" class="gallery-image">
+                <div class="gallery-caption">
+                    <button class="gallery-view-btn">
+                        <i class="fas fa-expand"></i> Ampliar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="gallery-card">
+            <div class="gallery-image-container">
+                <img src="{% static 'aplicacion/images/portafolio/IMG24.jpg' %}" alt="imagen 24" class="gallery-image">
+                <div class="gallery-caption">
+                    <button class="gallery-view-btn">
+                        <i class="fas fa-expand"></i> Ampliar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="gallery-card">
+            <div class="gallery-image-container">
+                <img src="{% static 'aplicacion/images/portafolio/IMG25.jpg' %}" alt="imagen 25" class="gallery-image">
+                <div class="gallery-caption">
+                    <button class="gallery-view-btn">
+                        <i class="fas fa-expand"></i> Ampliar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="gallery-card">
+            <div class="gallery-image-container">
+                <img src="{% static 'aplicacion/images/portafolio/IMG26.jpg' %}" alt="imagen 26" class="gallery-image">
+                <div class="gallery-caption">
+                    <button class="gallery-view-btn">
+                        <i class="fas fa-expand"></i> Ampliar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="gallery-card">
+            <div class="gallery-image-container">
+                <img src="{% static 'aplicacion/images/portafolio/IMG27.jpg' %}" alt="imagen 27" class="gallery-image">
+                <div class="gallery-caption">
+                    <button class="gallery-view-btn">
+                        <i class="fas fa-expand"></i> Ampliar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="gallery-card">
+            <div class="gallery-image-container">
+                <img src="{% static 'aplicacion/images/portafolio/IMG28.jpg' %}" alt="imagen 28" class="gallery-image">
+                <div class="gallery-caption">
+                    <button class="gallery-view-btn">
+                        <i class="fas fa-expand"></i> Ampliar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="gallery-card">
+            <div class="gallery-image-container">
+                <img src="{% static 'aplicacion/images/portafolio/IMG29.jpg' %}" alt="imagen 29" class="gallery-image">
+                <div class="gallery-caption">
+                    <button class="gallery-view-btn">
+                        <i class="fas fa-expand"></i> Ampliar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="gallery-card">
+            <div class="gallery-image-container">
+                <img src="{% static 'aplicacion/images/portafolio/IMG30.jpg' %}" alt="imagen 30" class="gallery-image">
+                <div class="gallery-caption">
+                    <button class="gallery-view-btn">
+                        <i class="fas fa-expand"></i> Ampliar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="gallery-card">
+            <div class="gallery-image-container">
+                <img src="{% static 'aplicacion/images/portafolio/IMG31.jpg' %}" alt="imagen 31" class="gallery-image">
+                <div class="gallery-caption">
+                    <button class="gallery-view-btn">
+                        <i class="fas fa-expand"></i> Ampliar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="gallery-card">
+            <div class="gallery-image-container">
+                <img src="{% static 'aplicacion/images/portafolio/IMG32.jpg' %}" alt="imagen 32" class="gallery-image">
+                <div class="gallery-caption">
+                    <button class="gallery-view-btn">
+                        <i class="fas fa-expand"></i> Ampliar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="gallery-card">
+            <div class="gallery-image-container">
+                <img src="{% static 'aplicacion/images/portafolio/IMG33.jpg' %}" alt="imagen 33" class="gallery-image">
+                <div class="gallery-caption">
+                    <button class="gallery-view-btn">
+                        <i class="fas fa-expand"></i> Ampliar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="gallery-card">
+            <div class="gallery-image-container">
+                <img src="{% static 'aplicacion/images/portafolio/IMG34.jpg' %}" alt="imagen 34" class="gallery-image">
+                <div class="gallery-caption">
+                    <button class="gallery-view-btn">
+                        <i class="fas fa-expand"></i> Ampliar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="gallery-card">
+            <div class="gallery-image-container">
+                <img src="{% static 'aplicacion/images/portafolio/IMG35.jpg' %}" alt="imagen 35" class="gallery-image">
+                <div class="gallery-caption">
+                    <button class="gallery-view-btn">
+                        <i class="fas fa-expand"></i> Ampliar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

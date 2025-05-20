@@ -1,0 +1,230 @@
+{% extends "paginas/base_interfaz_admin.html" %}
+{% load static %}
+
+{% block titulo %}Admin_Copias{% endblock %}
+
+{% block estilos %}
+<link rel="stylesheet" href="{% static 'aplicacion/css/style_admin_copias1.css' %}">
+{% endblock %}
+
+{% block contenido %}
+{% block scripts %}
+<script src="{% static 'aplicacion/js/script_admin_copias.js' %}" defer></script>
+{% endblock %}
+<main class="main-content">
+    <!-- Backup Tab -->
+    <div class="tab-pane" id="backup">
+        <div class="dashboard">
+            <div class="dashboard-header">
+                <h1 class="dashboard-title">Copias de Seguridad</h1>
+                <div class="dashboard-actions">
+                    <button class="btn btn-outline">
+                        <i class="fas fa-sync"></i> Restaurar
+                    </button>
+                    <button class="btn btn-primary" id="create-backup-btn">
+                        <i class="fas fa-plus"></i> Nueva Copia
+                    </button>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Copias de Seguridad Recientes</h2>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Fecha</th>
+                                <th>Tamaño</th>
+                                <th>Creado por</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>backup_28042025.zip</td>
+                                <td>28/04/2025 09:30:45</td>
+                                <td>254 MB</td>
+                                <td>Automático</td>
+                                <td><span class="badge badge-success">Completo</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn download-btn" title="Descargar" data-backup-id="backup_28042025.zip">
+                                            <i class="fas fa-download"></i> Descargar
+                                        </button>
+                                        <button class="action-btn restore-btn" title="Restaurar" data-backup-id="backup_28042025.zip">
+                                            <i class="fas fa-undo"></i> Restaurar
+                                        </button>
+                                        <button class="action-btn delete-btn" title="Eliminar" data-backup-id="backup_28042025.zip">
+                                            <i class="fas fa-trash"></i> Eliminar
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Configuración de Copias de Seguridad</h2>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label class="form-label">Programación de Copias de Seguridad</label>
+                        <select class="form-control">
+                            <option selected>Manual</option>
+                            <option>Diaria</option>
+                            <option>Mensual</option>
+                            <option>Semanal (Lunes)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Hora de Ejecución</label>
+                        <input type="time" class="form-control" value="09:30">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Tiempo de Retención</label>
+                        <select class="form-control">
+                            <option>1 Semana</option>
+                            <option>2 Semanas</option>
+                            <option selected>1 Mes</option>
+                            <option>3 Meses</option>
+                            <option>6 Meses</option>
+                            <option>1 Año</option>
+                        </select>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+     <!-- Modales para las acciones -->
+    <!-- Modal de Descarga -->
+    <div class="modal-backdrop" id="download-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Descargar Copia de Seguridad</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>¿Estás seguro que deseas descargar <strong id="download-filename"></strong>?</p>
+                <div class="download-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="include-metadata" checked>
+                        <span>Incluir metadatos y logs</span>
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline modal-close-btn">Cancelar</button>
+                <button class="btn btn-primary" id="confirm-download">Descargar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Restauración -->
+    <div class="modal-backdrop" id="restore-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Restaurar Sistema</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>¿Restaurar el sistema desde <strong id="restore-filename"></strong>?</p>
+                <div class="form-group">
+                    <label class="form-label">Opciones de restauración:</label>
+                    <select class="form-control" id="restore-option">
+                        <option value="full">Restauración completa</option>
+                        <option value="schema">Solo esquema de base de datos</option>
+                        <option value="data">Solo datos (sin estructura)</option>
+                    </select>
+                </div>
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-triangle"></i> Advertencia: Esta acción sobrescribirá los datos actuales.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline modal-close-btn">Cancelar</button>
+                <button class="btn btn-primary" id="confirm-restore">Restaurar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Eliminación -->
+    <div class="modal-backdrop" id="delete-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Eliminar Copia de Seguridad</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>¿Estás seguro que deseas eliminar permanentemente <strong id="delete-filename"></strong>?</p>
+                <div class="alert alert-danger">
+                    <i class="fas fa-exclamation-circle"></i> Esta acción no se puede deshacer.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline modal-close-btn">Cancelar</button>
+                <button class="btn btn-danger" id="confirm-delete">Eliminar Permanentemente</button>
+            </div>
+        </div>
+    </div>
+    <!-- Create Backup Modal -->
+    <div class="modal-backdrop" id="create-backup-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Crear Copia de Seguridad</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Nombre de la Copia</label>
+                    <input type="text" class="form-control" value="backup_manual_28042025">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Tipo de Copia</label>
+                    <select class="form-control">
+                        <option selected>Completa</option>
+                        <option>Incremental</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Incluir</label>
+                    <div style="margin-top: 10px;">
+                        <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                            <input type="checkbox" checked style="margin-right: 10px;">
+                            <span>Base de datos</span>
+                        </div>
+                        <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                            <input type="checkbox" checked style="margin-right: 10px;">
+                            <span>Archivos de evidencias</span>
+                        </div>
+                        <div style="display: flex; align-items: center;">
+                            <input type="checkbox" checked style="margin-right: 10px;">
+                            <span>Configuración del sistema</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Descripción</label>
+                    <textarea class="form-control" rows="2" placeholder="Descripción opcional"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline modal-close-btn">Cancelar</button>
+                <button class="btn btn-primary">Crear Copia</button>
+            </div>
+        </div>
+</main>
+{% endblock %}

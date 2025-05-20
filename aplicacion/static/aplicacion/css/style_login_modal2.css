@@ -1,0 +1,312 @@
+/* Estilos para el modal */
+.modal_login {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+  }
+  
+  /* Fondo del modal */
+  .modal-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    animation: fadeIn 0.3s ease-out;
+  }
+  
+  /* Animación de aparición del modal */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @keyframes scaleIn {
+    from { 
+      opacity: 0;
+      transform: translate(-50%, -70%) scale(0.9);
+    }
+    to { 
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+  }
+  
+  /* Estilos para el formulario dentro del modal */
+  .modal_login .wrapper {
+    width: 380px;
+    background: #fefae0f0;
+    border-radius: 35px;
+    box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.3);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: scaleIn 0.4s ease-out;
+    padding-right: 0; /* Aseguramos que no hay padding adicional */
+  }
+  
+  /* Botón para cerrar el modal */
+  .close-modal {
+    position: absolute;
+    top: 6%;
+    right: 4%;
+    transform: translateY(-50%);
+    color: white;
+    font-size: 40px;
+    cursor: pointer;
+    z-index: 10000;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+  }
+  
+  .close-modal:hover {
+    transform: translateY(-50%) scale(1.2);
+    color: #32794a;
+    background: rgba(0, 0, 0, 0.5);
+}
+  
+  /* Estilos para el formulario */
+  .wrapper .title {
+    font-size: 32px;
+    font-weight: 600;
+    text-align: center;
+    line-height: 100px;
+    color: #ffffff;
+    user-select: none;
+    border-radius: 35px 35px 0 0;
+    background: linear-gradient(-135deg, #32794a, #0c0c0c);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .wrapper .title::after {
+    content: "";
+    position: absolute;
+    width: 80px;
+    height: 4px;
+    background-color: #ede7c7;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 2px;
+  }
+  
+  .wrapper form {
+    padding: 15px 25px 35px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Todos los campos del mismo tamaño */
+  .wrapper form .field {
+    height: 45px;
+    width: 80%;
+    margin-top: 20px;  
+    position: relative;
+  }
+  
+  .wrapper form .field input,
+  .wrapper form .field select {
+    height: 100%;
+    width: 100%;
+    outline: none;
+    font-size: 16px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 35px;
+    transition: all 0.3s ease;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: rgba(255, 255, 255, 0.7);
+  }
+  
+  /* Estilo para los campos en foco */
+  .wrapper form .field input:focus,
+  .wrapper form .field select:focus {
+    border-color: #32794a;
+    box-shadow: 0 0 15px rgba(50, 121, 74, 0.15);
+    background-color: white;
+  }
+  
+  /* Estilo para las etiquetas */
+  .wrapper form .field label {
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+    pointer-events: none;
+    font-size: 16px;
+    color: #666;
+    transition: all 0.3s ease;
+  }
+  
+  .wrapper form .field input:focus ~ label,
+  .wrapper form .field input:valid ~ label,
+  .wrapper form .field select:focus ~ label,
+  .wrapper form .field select:valid ~ label {
+    top: 0;
+    left: 18px;
+    font-size: 14px;
+    background: white;
+    padding: 0 5px;
+    color: #32794a;
+    transform: translateY(-50%);
+  }
+  
+  /* Contenedor para términos y condiciones */
+  .terms-container {
+    display: flex;
+  }
+  
+  /* Estilos para el checkbox */
+  .checkbox {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    color: #333;
+    font-size: 14px;
+    width: 100%;
+    padding: 0 55px;
+  }
+  
+  .checkbox input {
+    margin-right: 8px;
+    margin-top: 0;
+    accent-color: #32794a;
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+  
+  /* Mejorar el estilo visual del checkbox */
+  .checkbox input[type="checkbox"] {
+    position: relative;
+    background-color: #fff;
+    border: 1.5px solid #32794a;
+    border-radius: 3px;
+    appearance: none;
+  }
+  
+  .checkbox input[type="checkbox"]:checked {
+    background-color: #32794a;
+  }
+  
+  .checkbox label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+  }
+  
+  /* Texto de términos y condiciones */
+  .terms-text {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Estilos para los enlaces */
+  .checkbox a,
+  .content a {
+    color: #32794a;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    margin: 0 3px;
+  }
+  
+  .checkbox a:hover,
+  .content a:hover {
+    text-decoration: underline;
+    color: #245536;
+  }
+  
+  /* Contenedor para el enlace de recuperación */
+  .content {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 15px 0;
+    text-align: center;
+  }
+  
+  .pass-link {
+    font-size: 14px;
+  }
+  
+  /* Botón de submit */
+  .wrapper form .field input[type="submit"] {
+    color: #ffffff;
+    background: linear-gradient(-135deg, #32794a, #1c3127);
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    width: 100%;
+  }
+  
+  .wrapper form .field input[type="submit"]:hover {
+    background: linear-gradient(-135deg, #3d9157, #2a4a3b);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Responsive */
+  @media screen and (max-width: 480px) {
+    .modal_login .wrapper {
+      width: 90%;
+    }
+  
+    .wrapper .title {
+      font-size: 28px;
+      line-height: 80px;
+    }
+  
+    .wrapper form {
+      padding: 15px 20px 30px 20px;
+    }
+  }
+
+  .login-messages {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+    text-align: center;
+}
+
+.login-messages li {
+    padding: 8px;
+    margin-bottom: 5px;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.login-messages li.error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.login-messages li.success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+  

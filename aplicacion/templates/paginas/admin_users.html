@@ -1,0 +1,298 @@
+{% extends "paginas/base_interfaz_admin.html" %}
+{% load static %}
+
+{% block titulo %}Admin_Users{% endblock %}
+
+{% block estilos %}
+<link rel="stylesheet" href="{% static 'aplicacion/css/style_admin_users2.css' %}">
+{% endblock %}
+
+{% block contenido %}
+{% block scripts %}
+<script src="{% static 'aplicacion/js/validar_usuario.js' %}"></script>
+{% endblock %}
+
+<!-- Users Tab -->
+<main class="main-content">
+    <div class="tab-pane active" id="users">
+        <div class="dashboard">
+            <div class="dashboard-header">
+                <h1 class="dashboard-title">Gestión de Usuarios</h1>
+                <div class="dashboard-actions">
+                    <button class="btn btn-outline">
+                        <i class="fas fa-download"></i> Exportar
+                    </button>
+                    <button class="btn btn-primary" id="add-user-btn">
+                        <i class="fas fa-plus"></i> Nuevo Usuario
+                    </button>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Usuario</th>
+                                <th>Email</th>
+                                <th>Rol</th>
+                                <th>Estado</th>
+                                <th>Fecha Registro</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for usuario in usuarios %}
+                            <tr data-user-id="{{ usuario.id }}">
+                                <td>{{ forloop.counter }}</td>
+                                <td>
+                                    <div class="user-info">
+                                        <div class="user-name">{{ usuario.nombre }} {{ usuario.apellido }}</div>
+                                    </div>
+                                </td>
+                                <td>{{ usuario.email }}</td>
+                                <td>{{ usuario.rol.rol }}</td>
+                                <td>
+                                    <span
+                                        class="badge {% if usuario.is_active %}badge-success{% else %}badge-danger{% endif %}">
+                                        {% if usuario.is_active %}Activo{% else %}Inactivo{% endif %}
+                                    </span>
+                                </td>
+                                <td>{{ usuario.date_joined|date:"Y-m-d" }}</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button type="button" class="btn-icon edit" data-id="{{ usuario.id }}"
+                                            title="Editar usuario">
+                                            Editar <i class="fas fa-pencil-alt"></i>
+                                        </button>
+                                        <button class="btn-icon delete" data-id="{{ usuario.id }}"
+                                            title="Eliminar usuario">
+                                            Eliminar <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="6" class="text-center">No hay usuarios registrados</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Modal: Agregar Usuario -->
+<div class="modal-backdrop" id="add-user-modal">
+    <div class="modal">
+        <div class="modal-header">
+            <h3 class="modal-title">Agregar Nuevo Usuario</h3>
+            <button type="button" class="modal-close" aria-label="Cerrar">&times;</button>
+        </div>
+
+        <div class="modal-body">
+            {% csrf_token %}
+
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label class="form-label" for="nombre">Nombre</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre" required>
+                        <div class="invalid-feedback"></div>
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label class="form-label" for="apellidos">Apellido</label>
+                        <input type="text" class="form-control" id="apellidos" name="apellido" placeholder="Apellidos"
+                            required>
+                        <div class="invalid-feedback"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="telefono">Teléfono</label>
+                <input type="tel" class="form-control" id="telefono" name="telefono" placeholder="Teléfono" required
+                    pattern="[0-9]{10}" title="10 dígitos numéricos">
+                <div class="invalid-feedback"></div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="identificacion">Número de identificación:</label>
+                <input type="number" class="form-control" id="identificacion" name="identificacion"
+                    placeholder="Número de identificación" required pattern="[0-9]{6,12}"
+                    title="Mínimo 6 dígitos, máximo 12">
+                <div class="invalid-feedback"></div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="email">Email</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
+                <div class="invalid-feedback"></div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label class="form-label" for="password">Contraseña</label>
+                        <input type="password" class="form-control" id="password" name="password"
+                            placeholder="Contraseña" required minlength="8">
+                        <div class="invalid-feedback"></div>
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label class="form-label" for="confirm-password">Confirmar Contraseña</label>
+                        <input type="password" class="form-control" id="confirm-password" name="confirm-password"
+                            placeholder="Confirmar Contraseña" required>
+                        <div class="invalid-feedback"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-col">
+                <label class="form-label" for="rol">Rol</label>
+                <select class="form-control" id="rol" name="rol" required>
+                    <option value="" disabled selected>Seleccione el Rol</option>
+                    <option value="Administrador">Administrador</option>
+                    <option value="Guardaparamo">Guardaparamo</option>
+                </select>
+            </div>
+
+            <div class="form-col">
+                <label class="form-label" for="zona">Zona</label>
+                <select class="form-control" id="zona" name="zona" required>
+                    <option value="" disabled selected>Seleccione la Zona</option>
+                    <option value="1">Zona 1</option>
+                    <option value="2">Zona 2</option>
+                    <option value="3">Zona 3</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <div id="mensaje-usuario" style="margin-bottom: 10px;"></div>
+            <button type="button" class="btn btn-outline modal-close-btn">Cancelar</button>
+            <button type="button" class="btn btn-primary" id="guardar-usuario">
+                <span id="guardar-text">Guardar</span>
+                <span id="guardar-spinner" style="display: none;">
+                    <i class="fas fa-spinner fa-spin"></i> Procesando...
+                </span>
+            </button>
+        </div>
+    </div>
+</div>
+<!-- Modal: Editar Usuario (fuera del loop) -->
+<div class="modal-backdrop" id="edit-user-modal">
+    <div class="modal">
+        <div class="modal-header">
+            <h3 class="modal-title">Editar Usuario</h3>
+            <button type="button" class="modal-close" aria-label="Cerrar">&times;</button>
+        </div>
+
+        <div class="modal-body">
+            {% csrf_token %}
+            <input type="hidden" id="edit-usuario-id">
+
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label class="form-label" for="edit-nombre">Nombre</label>
+                        <input type="text" class="form-control" id="edit-nombre" required>
+                        <div class="invalid-feedback"></div>
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label class="form-label" for="edit-apellidos">Apellido</label>
+                        <input type="text" class="form-control" id="edit-apellidos" required>
+                        <div class="invalid-feedback"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="edit-telefono">Teléfono</label>
+                <input type="tel" class="form-control" id="edit-telefono" required>
+                <div class="invalid-feedback"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="edit-identificacion">Número de identificación:</label>
+                <input type="number" class="form-control" id="edit-identificacion" required>
+                <div class="invalid-feedback"></div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="edit-email">Email</label>
+                <input type="email" class="form-control" id="edit-email" required>
+                <div class="invalid-feedback"></div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="edit-rol">Rol</label>
+                <select class="form-control" id="edit-rol" required>
+                    <option value="Administrador">Administrador</option>
+                    <option value="Guardaparamo">Guardaparamo</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="edit-zona">Zona</label>
+                <select class="form-control" id="edit-zona" required>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <div id="edit-mensaje-usuario" style="margin-bottom: 10px;"></div>
+            <button type="button" class="btn btn-outline modal-close-btn">Cancelar</button>
+            <button type="button" class="btn btn-primary" id="actualizar-usuario">
+                <span id="actualizar-text">Actualizar</span>
+                <span id="actualizar-spinner" style="display: none;">
+                    <i class="fas fa-spinner fa-spin"></i> Procesando...
+                </span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Alertas ECOPARM -->
+    <div id="custom-alert" class="hidden">
+        <div class="ecoparm-alert">
+            <div class="ecoparm-alert-header">
+                <h3 class="ecoparm-alert-title" id="alert-title">Título</h3>
+            </div>
+            <div class="ecoparm-alert-body">
+                <p class="ecoparm-alert-message" id="alert-message">Mensaje aquí</p>
+                <div class="ecoparm-progress-container" id="progress-container" style="display: none;">
+                    <div class="ecoparm-progress-bar">
+                        <div class="ecoparm-progress-fill" id="progress-fill"></div>
+                    </div>
+                    <span class="ecoparm-progress-text" id="progress-text">0%</span>
+                </div>
+            </div>
+            <div class="ecoparm-alert-footer">
+                <button id="custom-alert-ok" class="ecoparm-alert-button">Aceptar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mensaje de error en línea -->
+    <div id="inline-error" class="hidden">
+        <div class="ecoparm-error-message">
+            <i class="fas fa-exclamation-circle error-icon"></i>
+            <span id="error-message-text"></span>
+        </div>
+        <div class="ecoparm-error-hint" id="error-hint-text"></div>
+    </div>
+</div>
+
+{% endblock %}

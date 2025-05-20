@@ -1,0 +1,151 @@
+{% extends "paginas/base.html" %}
+
+{% load static %}
+
+{% block titulo %} Inicio {% endblock %}
+
+{% block estilos %}
+<link rel="stylesheet" href="{% static 'aplicacion/css/style_index.css' %}">
+{% endblock %}
+
+{% block contenido %} 
+
+{% block scripts %}
+<script src="{% static 'aplicacion/js/script_buscar_entidad.js' %}" defer></script>
+{% endblock %}
+
+<div class="fondo">
+    <h2><i class="fas fa-mountain"></i> Páramo de Siscunsí: Un Paraíso Natural en Sogamoso, Boyacá! </h2>
+    <div class="contenido-paramo">
+        <div class="texto-imagen">
+            <div class="texto">
+                <p>
+                    Enclavado en las alturas de los Andes colombianos, el Páramo de Siscunsí es un tesoro ecológico que deslumbra con su belleza imponente y su importancia ambiental. Ubicado en el municipio de Sogamoso, Boyacá, este ecosistema de alta montaña es una de las principales reservas hídricas de la región.
+                </p>
+                
+                <div class="datos-destacados">
+                    <div class="dato">
+                        <i class="fas fa-tint"></i>
+                        <span>Reserva hídrica</span>
+                    </div>
+                    <div class="dato">
+                        <i class="fas fa-paw"></i>
+                        <span>Hábitat del oso de anteojos</span>
+                    </div>
+                    <div class="dato">
+                        <i class="fas fa-hiking"></i>
+                        <span>Rutas de senderismo</span>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="galeria">
+            <div class="galeria-item">
+                <img src="{% static 'aplicacion/images/index/laguna.png' %}" alt="Laguna del páramo">
+                <p>Lagunas cristalinas</p>
+            </div>
+            <div class="galeria-item">
+                <img src="{% static 'aplicacion/images/index/fauna_paramo.png' %}" alt="Fauna del páramo">
+                <p>Biodiversidad única</p>
+            </div>
+            <div class="galeria-item">
+                <img src="{% static 'aplicacion/images/index/senderismo.png' %}" alt="Senderismo en el páramo">
+                <p>Ecoturismo</p>
+            </div>
+        </div>
+        
+        <div class="texto-completo">
+            <p>
+                Su paisaje, dominado por los majestuosos frailejones, la neblina que se desliza entre las montañas y las cristalinas lagunas, crea un escenario mágico donde la naturaleza se muestra en su máxima expresión. En este hábitat único conviven especies emblemáticas como el oso de anteojos, el venado de páramo, el águila real de montaña y una gran variedad de aves.
+                <br><br>
+                Más allá de su riqueza natural, el Páramo de Siscunsí es un lugar de gran valor cultural e histórico. Durante siglos, ha sido parte del territorio de los Muiscas, quienes veneraban sus lagunas como espacios sagrados. Hoy, sigue siendo un sitio de conexión espiritual y reflexión.
+                <br><br>
+                Para los amantes del ecoturismo y el senderismo, este páramo ofrece rutas espectaculares que permiten recorrer sus paisajes llenos de vida y respirar el aire puro de las montañas. Explorar el Páramo de Siscunsí es más que una simple visita; es una aventura que invita a valorar y proteger uno de los ecosistemas más frágiles y esenciales del planeta.
+            </p>
+            
+            <div class="llamado-accion">
+                <i class="fas fa-leaf"></i>
+                <span>Ven y descubre la magia del Páramo de Siscunsí. Un santuario natural que te espera con su inmensa biodiversidad y paisajes inolvidables.</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="fondo">
+    <h2><i class="fas fa-video"></i> Explorando la Magia del Páramo</h2>
+    <iframe src="https://www.youtube.com/embed/BLnTMUgecyQ?si=mgL3UP4YOypNL8jq"
+            title="YouTube video player"
+            frameborder="0"
+            allowfullscreen
+            class="video">
+    </iframe>
+</div>
+
+<div class="fondo">
+    <h2>📞 Teléfonos de Emergencia</h2>
+    <input type="text" id="search" placeholder="🔍 Buscar entidad..." onkeyup="filtrarTabla()">
+    <table>
+        <br>
+        <thead>
+            <tr>
+                <th>📌 ENTIDAD</th>
+                <th>📞 TELÉFONO</th>
+                <th>📝 SERVICIOS</th>
+            </tr>
+        </thead>
+        <tbody id="tabla-emergencia">
+            <tr>
+                <td>Jefe Oficina Gestión de Riesgos</td>
+                <td>(608) 7702040</td>
+                <td>Coordinación de emergencias</td>
+            </tr>
+            <tr>
+                <td>Cruz Roja Colombiana</td>
+                <td>3144213394</td>
+                <td>Ambulancias y rescate</td>
+            </tr>
+            <tr>
+                <td>Defensa Civil</td>
+                <td>3132620844</td>
+                <td>Ambulancia y rescate</td>
+            </tr>
+            <tr>
+                <td>Cuerpo de Bomberos Voluntarios</td>
+                <td>3132959347</td>
+                <td>Atención de Incendios, inundaciones y Sustancias Peligrosas.</td>
+            </tr>
+            <tr>
+                <td>Policia Ambiental</td>
+                <td>3233207507 - 3105695363</td>
+                <td>Controlar el cumplimiento de las normas de protección ambiental
+                    <br>
+                    Controlar el tráfico de biodiversidad
+                    <br>
+                    Controlar la contaminación atmosférica
+                    <br>
+                    Mitigar los impactos ambientales
+                    <br>
+                    Promover el uso racional de los recursos naturales</td>
+            </tr>
+            <tr>
+                <td>Comandante Policia Ambiental</td>
+                <td>3144432796</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Corpoboyaca Atencion Al Usuario</td>
+                <td>3104810294</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Subdireccion Ecosistemas Estrategicos</td>
+                <td>3143454423</td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

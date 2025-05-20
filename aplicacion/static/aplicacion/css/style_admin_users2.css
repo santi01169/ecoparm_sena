@@ -1,0 +1,564 @@
+/* Estilos Base */
+.main-content {
+    padding: 2rem;
+    background-color: #f8f9fa;
+    min-height: calc(100vh - 70px);
+}
+
+/* Header del Dashboard */
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.dashboard-title {
+    font-size: 1.75rem;
+    color: #2c6544;
+    font-weight: 600;
+    margin: 0;
+}
+
+.dashboard-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+/* Estilos de Botones */
+.btn {
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.btn-primary {
+    background-color: #32794a;
+    color: #ffffff;
+    border-color: #8ed7a9;
+}
+
+.btn-primary:hover {
+    background-color: #7ac79a;
+    border-color: #7ac79a;
+}
+
+.btn-outline {
+    background-color: transparent;
+    color: #2c6544;
+    border-color: #8ed7a9;
+}
+
+.btn-outline:hover {
+    background-color: rgba(142, 215, 169, 0.1);
+}
+
+/* Estilos de Tabla */
+.table-responsive {
+    overflow-x: auto;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 1.5rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+th {
+    background-color: #f8f9fa;
+    color: #555;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+}
+
+/* Info de Usuario */
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.user-name {
+    font-weight: 500;
+}
+
+/* Badges */
+.badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.badge-success {
+    background-color: #e6f7ed;
+    color: #28a745;
+}
+
+.badge-danger {
+    background-color: #fce8e8;
+    color: #dc3545;
+}
+
+/* Botones de Acción - Estilo unificado con usuarios */
+.action-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.btn-icon {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.75rem;
+}
+
+.btn-icon:hover {
+    transform: scale(1.1);
+}
+
+/* Estilo para botón Editar */
+.btn-icon.edit {
+    color: #2c6544;
+    background-color: rgba(142, 215, 169, 0.2);
+    border: 1px solid rgba(142, 215, 169, 0.3);
+}
+
+.btn-icon.edit:hover {
+    background-color: rgba(142, 215, 169, 0.3);
+}
+
+/* Estilo para botón Eliminar */
+.btn-icon.delete {
+    color: #dc3545;
+    background-color: rgba(220, 53, 69, 0.1);
+    border: 1px solid rgba(220, 53, 69, 0.2);
+}
+
+.btn-icon.delete:hover {
+    background-color: rgba(220, 53, 69, 0.2);
+}
+
+/* Iconos dentro de los botones */
+.btn-icon i {
+    font-size: 0.875rem;
+}
+
+/* Paginación */
+.pagination {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    gap: 0.5rem;
+}
+
+.page-item {
+    margin: 0;
+}
+
+.page-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    color: #555;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.page-link:hover {
+    background-color: #f0f0f0;
+}
+
+.page-item.active .page-link {
+    background-color: #8ed7a9;
+    color: white;
+    border-color: #8ed7a9;
+}
+
+/* Estilos del Modal - Versión Mejorada */
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1050;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    padding: 1rem;
+    overflow-y: auto;
+}
+
+.modal-backdrop.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal {
+    background-color: white;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 600px;
+    max-height: 90vh; /* Alto máximo del modal (viewport height) */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column; /* importante para que el body haga scroll */
+}
+
+.modal-header {
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.modal-title {
+    margin: 0;
+    font-size: 1rem;
+    color: #2c6544;
+    font-weight: 700;
+    text-align: center;
+}
+
+.modal-close {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #6c757d;
+    transition: color 0.2s ease;
+}
+
+.modal-close:hover {
+    color: #2c6544;
+}
+
+.modal-body {
+    padding: 1rem 1.25rem;
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+.modal-footer {
+    padding: 1.25rem 2rem;
+    background-color: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    flex-shrink: 0;
+}
+
+/* Estructura del Formulario */
+.form-section {
+    margin-bottom: 1.75rem;
+}
+
+.form-section-title {
+    display: block;
+    font-size: 0.9375rem;
+    color: #495057;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-row {
+    display: flex;
+    gap: 1.25rem;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+}
+
+.form-col {
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #495057;
+}
+
+.form-control {
+    width: 90%;
+    padding: 0.875rem 1rem;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    font-size: 0.9375rem;
+    color: #495057;
+    background-color: #f8f9fa;
+    transition: all 0.2s ease;
+}
+
+.form-control:focus {
+    border-color: #8ed7a9;
+    box-shadow: 0 0 0 3px rgba(142, 215, 169, 0.25);
+    background-color: white;
+    outline: none;
+}
+
+/* Pie del Modal */
+.modal-footer {
+    padding: 1.25rem 2rem;
+    background-color: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+.modal-btn {
+    padding: 0.6875rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 0.9375rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.modal-btn-outline {
+    background-color: transparent;
+    color: #2c6544;
+    border-color: #8ed7a9;
+}
+
+.modal-btn-outline:hover {
+    background-color: rgba(142, 215, 169, 0.1);
+}
+
+.modal-btn-primary {
+    background-color: #8ed7a9;
+    color: #2c6544;
+    font-weight: 600;
+}
+
+.modal-btn-primary:hover {
+    background-color: #7ac79a;
+}
+
+/* Responsive Design */
+@media (max-width: 576px) {
+    .modal {
+        margin: 0 1rem;
+        max-width: calc(100% - 2rem);
+    }
+    
+    .modal-body {
+        padding: 1.25rem 1.5rem;
+    }
+    
+    .modal-header, .modal-footer {
+        padding: 1.25rem 1.5rem;
+    }
+    
+    .form-row {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .dashboard-actions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+}
+
+#custom-alert {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+#custom-alert:not(.hidden) {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.ecoparm-alert {
+  width: 350px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  transform: translateY(20px);
+  transition: transform 0.3s ease;
+}
+
+#custom-alert:not(.hidden) .ecoparm-alert {
+  transform: translateY(0);
+}
+
+.ecoparm-alert-header {
+  padding: 16px 20px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.ecoparm-alert-title {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.ecoparm-alert-body {
+  padding: 20px;
+}
+
+.ecoparm-alert-message {
+  margin: 0 0 15px 0;
+  color: #34495e;
+  line-height: 1.5;
+}
+
+.ecoparm-progress-container {
+  margin-top: 20px;
+}
+
+.ecoparm-progress-bar {
+  height: 6px;
+  background: #e9ecef;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 5px;
+}
+
+.ecoparm-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: #28a745;
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.ecoparm-progress-text {
+  display: block;
+  text-align: right;
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+
+.ecoparm-alert-footer {
+  padding: 12px 20px;
+  display: flex;
+  justify-content: flex-end;
+  border-top: 1px solid #e9ecef;
+}
+
+.ecoparm-alert-button {
+  padding: 8px 16px;
+  background: #32794a;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.ecoparm-alert-button:hover {
+  background: #2c6544;
+}
+
+/* Estilos para mensajes de error en línea */
+#inline-error {
+  display: none;
+  margin-top: 5px;
+}
+
+.ecoparm-error-message {
+  display: flex;
+  align-items: center;
+  color: #dc3545;
+  font-size: 0.9rem;
+  gap: 8px;
+}
+
+.error-icon {
+  font-size: 1rem;
+}
+
+.ecoparm-error-hint {
+  font-size: 0.8rem;
+  color: #6c757d;
+  margin-top: 4px;
+  padding-left: 24px;
+}
+
+/* Estilo para campos con error */
+.input-error {
+  border-color: #dc3545 !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .ecoparm-alert {
+    width: 90%;
+  }
+}
