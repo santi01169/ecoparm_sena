@@ -54,3 +54,20 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Ocultar menú hamburguesa
+    const menuToggle = document.querySelector('.sidebar-toggle, .navbar-toggler, [data-toggle="sidebar"]');
+    if (menuToggle) menuToggle.style.display = 'none';
+
+    // Ocultar iconos de carpetas
+    const folderIcons = document.querySelectorAll('.fa-folder, .fas.fa-folder, i[class*="folder"]');
+    folderIcons.forEach(icon => icon.style.display = 'none');
+
+    // Ajustar margen del contenido principal
+    const mainContent = document.querySelector('.main-content');
+    if (mainContent) {
+        mainContent.style.marginLeft = '0';
+        mainContent.style.width = '100%';
+    }
+});

@@ -423,3 +423,17 @@ textarea.form-control {
     color: #0056b3;
     text-decoration: none;
 }
+
+.mobile-header .menu-toggle {
+    display: none !important;
+}
+
+/* Oculta TODOS los íconos de carpeta (Font Awesome) en el menú lateral */
+.sidebar .menu-item i.fa-folder-open {
+    display: none !important;
+}
+
+/* Opcional: Ajusta el espacio del texto para que no quede vacío */
+.sidebar .menu-item span {
+    margin-left: 0 !important;
+}

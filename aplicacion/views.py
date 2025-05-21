@@ -468,15 +468,13 @@ def admin_dashboard(request):
 @login_required
 def users_evidencias(request):
     if request.method == 'POST':
-        # Determinar si es una edición
         es_edicion = 'editar_evidencia' in request.path
-        
+
         actividad = request.POST.get('actividad')
         ubicacion = request.POST.get('ubicacion')
         observaciones = request.POST.get('observaciones')
         archivo = request.FILES.get('archivo')
 
-        # Solo validar archivo para nuevas evidencias
         if not es_edicion and not archivo:
             if request.headers.get('x-requested-with') == 'XMLHttpRequest':
                 return JsonResponse({'success': False, 'error': 'Debes subir un archivo'}, status=400)
@@ -484,15 +482,21 @@ def users_evidencias(request):
             return redirect('users_evidencias')
 
         try:
-            # Para edición, mantener el archivo existente si no se sube uno nuevo
             if es_edicion:
                 evidencia = get_object_or_404(Evidencia, id=request.POST.get('evidencia_id'), usuario=request.user)
                 archivo_url = evidencia.archivo_url
                 if archivo:
                     result = cloudinary.uploader.upload(archivo)
                     archivo_url = result.get('secure_url')
+                
+                # Actualizar campos editables
+                evidencia.actividad = actividad
+                evidencia.ubicacion = ubicacion
+                evidencia.observaciones = observaciones
+                evidencia.archivo_url = archivo_url
+                evidencia.save()
+
             else:
-                # Para nueva evidencia, siempre subir archivo
                 result = cloudinary.uploader.upload(archivo)
                 archivo_url = result.get('secure_url')
                 evidencia = Evidencia.objects.create(
@@ -521,7 +525,9 @@ def users_evidencias(request):
             messages.error(request, f'Error al subir evidencia: {str(e)}')
             return redirect('users_evidencias')
 
-    evidencias = Evidencia.objects.all().order_by('-fecha_subida')
+    # CAMBIO: solo mostrar evidencias del usuario autenticado
+    evidencias = Evidencia.objects.filter(usuario=request.user).order_by('-fecha_subida')
+    
     return render(request, 'paginas/users_evidencias.html', {
         'evidencias': evidencias
     })
