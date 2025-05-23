@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.core.validators import FileExtensionValidator
 from django.utils.timezone import now
-
+from django.conf import settings
 # ------------------------------
 # Rol de usuario
 # ------------------------------
@@ -131,32 +131,47 @@ class Evidencia(models.Model):
 # Fauna o flora reportada
 # ------------------------------
 class FaunaFlora(models.Model):
-    ESPECIE_CHOICES = (
-        ('Fauna', 'Fauna'),
+    TIPO_CHOICES = (
         ('Flora', 'Flora'),
+        ('Fauna', 'Fauna'),
     )
 
-    nombre = models.CharField(max_length=80)
-    especie = models.CharField(max_length=10, choices=ESPECIE_CHOICES)
-    estado = models.CharField(max_length=250)
-    caracteristicas = models.CharField(max_length=300)
-    evidencia = models.ForeignKey(Evidencia, on_delete=models.CASCADE)
+    fecha = models.DateTimeField(auto_now_add=True)
+    usuario = models.ForeignKey('CustomUser', on_delete=models.CASCADE)
+    zona = models.ForeignKey('Zona', on_delete=models.CASCADE, null=True, blank=True)
+    tipo = models.CharField(max_length=10, choices=TIPO_CHOICES)
+    nombre_especie = models.CharField(max_length=80)
+    descripcion = models.TextField(max_length=300)
+    
+    # SOLO GUARDAR LA URL DE LA IMAGEN
+    imagen_url = models.URLField(max_length=500, blank=True, null=True)
+    imagen_public_id = models.CharField(max_length=255, blank=True, null=True)  # Para poder eliminar después
+    
+    estado = models.CharField(max_length=250, default="Reportado")
 
     def __str__(self):
-        return self.nombre
+        return f"{self.tipo}: {self.nombre_especie}"
+
+    class Meta:
+        verbose_name = "Fauna y Flora"
+        verbose_name_plural = "Fauna y Flora"
 
 # ------------------------------
 # Imágenes asociadas a una evidencia
 # ------------------------------
-class Imagen(models.Model):
+class ImagenEvidencia(models.Model):
     nombre = models.CharField(max_length=40)
     descripcion = models.CharField(max_length=250)
     link_imagen = models.CharField(max_length=250)
-    fecha = models.DateTimeField()
-    evidencia = models.ForeignKey(Evidencia, on_delete=models.CASCADE)
+    fecha = models.DateTimeField(auto_now_add=True)
+    evidencia = models.ForeignKey(Evidencia, on_delete=models.CASCADE, related_name='imagenes')
 
     def __str__(self):
         return self.nombre
+
+    class Meta:
+        verbose_name = "Imagen de Evidencia"
+        verbose_name_plural = "Imágenes de Evidencias"
 
 # ------------------------------
 # Emergencias reportadas por usuarios

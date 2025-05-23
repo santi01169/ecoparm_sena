@@ -31,8 +31,10 @@ from reportlab.lib.utils import ImageReader
 import requests
 from io import BytesIO
 from reportlab.lib.pagesizes import letter
-
-
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import FaunaFlora
+from .models import FaunaFlora, Zona
+from django.utils.timezone import now
 # Vistas básicas
 def inicio(request):
     return render(request, 'paginas/index.html')
@@ -72,9 +74,6 @@ def users_dashboard(request):
 
 def users_evidencias(request):
     return render(request, 'paginas/users_evidencias.html')
-
-def users_flora_fauna(request):
-    return render(request, 'paginas/users_flora_fauna.html')
 
 def admin_flora_fauna(request):
     return render(request, 'paginas/admin_flora_fauna.html')
@@ -694,5 +693,98 @@ def descargar_evidencia_pdf(request, id):
     p.save()
     return response
 
+# Flora y fauna
+def users_flora_fauna(request):
+    if request.method == 'POST':
+        tipo = request.POST.get('tipo')
+        nombre_especie = request.POST.get('nombre_especie')
+        descripcion = request.POST.get('descripcion')
+        imagen = request.FILES.get('imagen')
+        
+        if not all([tipo, nombre_especie, descripcion, imagen]):
+            messages.error(request, 'Todos los campos son obligatorios.')
+            return redirect('users_flora_fauna')
+        
+        try:
+            # Subir a Cloudinary
+            resultado = cloudinary.uploader.upload(
+                imagen,
+                folder="fauna_flora",
+                public_id=f"{tipo}_{nombre_especie}_{now().strftime('%Y%m%d_%H%M%S')}",
+                overwrite=True
+            )
+            
+            # Crear registro
+            FaunaFlora.objects.create(
+                tipo=tipo,
+                nombre_especie=nombre_especie,
+                descripcion=descripcion,
+                imagen_url=resultado['secure_url'],
+                imagen_public_id=resultado['public_id'],
+                usuario=request.user,
+                zona=request.user.zona if hasattr(request.user, 'zona') and request.user.zona else None
+            )
+            
+            messages.success(request, f'Registro de {tipo.lower()} agregado exitosamente.')
+            
+        except Exception as e:
+            messages.error(request, f'Error: {str(e)}')
+        
+        return redirect('users_flora_fauna')
+    
+    registros = FaunaFlora.objects.select_related('usuario', 'zona').order_by('-fecha')
+    return render(request, 'paginas/users_flora_fauna.html', {'registros': registros})
 
-# Descargar evidencia excel
+@login_required
+def eliminar_flora_fauna(request, registro_id):
+    if request.method == 'POST':
+        try:
+            registro = get_object_or_404(FaunaFlora, id=registro_id)
+            
+            if registro.usuario == request.user or request.user.is_staff:
+                # Eliminar de Cloudinary
+                if registro.imagen_public_id:
+                    cloudinary.uploader.destroy(registro.imagen_public_id)
+                
+                registro.delete()
+                messages.success(request, 'Registro eliminado exitosamente.')
+            else:
+                messages.error(request, 'Sin permisos.')
+        except Exception as e:
+            messages.error(request, f'Error: {str(e)}')
+    
+    return redirect('users_flora_fauna')
+
+
+@login_required 
+def editar_flora_fauna(request, registro_id):
+    """Vista para editar un registro de flora/fauna"""
+    registro = get_object_or_404(FaunaFlora, id=registro_id)
+    
+    # Verificar permisos
+    if registro.usuario != request.user and not request.user.is_staff:
+        messages.error(request, 'No tienes permisos para editar este registro.')
+        return redirect('users_flora_fauna')
+    
+    if request.method == 'POST':
+        try:
+            registro.tipo = request.POST.get('tipo', registro.tipo)
+            registro.nombre_especie = request.POST.get('nombre_especie', registro.nombre_especie)
+            registro.descripcion = request.POST.get('descripcion', registro.descripcion)
+            
+            # Solo actualizar imagen si se proporciona una nueva
+            nueva_imagen = request.FILES.get('imagen')
+            if nueva_imagen:
+                # Eliminar imagen anterior
+                if registro.imagen:
+                    registro.imagen.delete()
+                registro.imagen = nueva_imagen
+            
+            registro.save()
+            messages.success(request, 'Registro actualizado exitosamente.')
+            return redirect('users_flora_fauna')
+            
+        except Exception as e:
+            messages.error(request, f'Error al actualizar el registro: {str(e)}')
+    
+    return JsonResponse({'error': 'Método no permitido'}, status=405)

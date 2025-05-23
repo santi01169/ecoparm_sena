@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 from django.contrib.auth import views as auth_views
 from .views import CustomPasswordResetView
-
+from .views import users_flora_fauna
 urlpatterns = [
     path('', views.inicio, name="index"),
     path('nosotros', views.nosotros, name="nosotros"),
@@ -31,7 +31,9 @@ urlpatterns = [
     path('evidencias/eliminar/<int:evidencia_id>/', views.eliminar_evidencia, name='eliminar_evidencia'),
     path('evidencias/editar/<int:evidencia_id>/', views.editar_evidencia, name='editar_evidencia'),
     path('evidencia/<int:id>/pdf/', views.descargar_evidencia_pdf, name='descargar_evidencia_pdf'),
-
+    path('flora-fauna/', users_flora_fauna, name='users_flora_fauna'),
+    path('flora-fauna/eliminar/<int:registro_id>/', views.eliminar_flora_fauna, name='eliminar_flora_fauna'),
+    path('flora-fauna/editar/<int:registro_id>/', views.editar_flora_fauna, name='editar_flora_fauna'),
     path('password_reset/', auth_views.PasswordResetView.as_view(
         template_name='paginas/password_reset_form.html',
         email_template_name='emails/password_reset_email.html',

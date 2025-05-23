@@ -112,7 +112,7 @@ SESSION_SAVE_EVERY_REQUEST = True
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'sena_final',
+        'NAME': 'sena_final1',
         'USER': 'postgres',
         'PASSWORD': 'admin',  # Si no tienes contraseña en XAMPP, déjalo vacío
         'HOST': 'localhost',

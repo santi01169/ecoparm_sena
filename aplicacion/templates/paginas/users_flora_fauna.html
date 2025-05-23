@@ -15,67 +15,85 @@
     <div class="tab-pane" id="evidence">
         <div class="dashboard">
             <div class="dashboard-header">
-                <h1 class="dashboard-title">Gestión de Reportes</h1>
+                <h1 class="dashboard-title">Gestión de Flora y Fauna</h1>
                 <div class="dashboard-actions">
                     <button class="btn btn-primary" id="add-evidence-btn">
-                        <i class="fas fa-plus"></i> Nuevo Reporte
+                        <i class="fas fa-plus"></i> Nuevo Registro
                     </button>
                 </div>
             </div>
 
-            <!-- Tabla de evidencias actualizada -->
+            <!-- Tabla de registros -->
             <div class="table-responsive">
                 <table>
                     <thead>
                         <tr>
                             <th>#</th>
                             <th>Fecha</th>
-                            <th>Ubicación</th>
-                            <th>Observaciones</th>
-                            <th>URL Evidencia</th>
+                            <th>Subida por</th>
+                            <th>Zona</th>
+                            <th>Tipo</th>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Imagen</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for evidencia in evidencias %}
+                        {% for registro in registros %}
                         <tr>
                             <td>{{ forloop.counter }}</td>
-                            <td>{{ evidencia.fecha_subida|date:"Y-m-d H:i" }}</td>
-                            <td>{{ evidencia.usuario.username }}</td>
-                            <td>{{ evidencia.ubicacion }}</td>
-                            <td>{{ evidencia.observaciones }}</td>
+                            <td>{{ registro.fecha|date:"Y-m-d H:i" }}</td>
+                            <td>{{ registro.usuario.nombre }} {{ registro.usuario.apellido }}</td>
+                            <td>{{ registro.zona.nombre }}</td>
+                            <td>{{ registro.tipo }}</td>
+                            <td>{{ registro.nombre_especie }}</td>
+                            <td>{{ registro.descripcion }}</td>
                             <td>
-                                <a href="{{ evidencia.archivo.url }}" target="_blank">{{ evidencia.archivo.url }}</a>
+                                <a href="{{ registro.imagen_url }}" target="_blank">Ver Imagen</a>
                             </td>
-                            <td> <!-- Columna de acciones con botones -->
+                            <td>
                                 <button class="btn btn-outline btn-edit">Editar</button>
-                                <button class="btn btn-danger btn-delete">Eliminar</button>
+                                <form method="POST" action="{% url 'eliminar_flora_fauna' registro.id %}" style="display:inline;" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este registro?');">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                                </form>
                             </td>
+
                         </tr>
                         {% empty %}
-                        <tr><td colspan="7">No hay reportes registradas.</td></tr>
+                        <tr><td colspan="9">No hay registros de flora o fauna.</td></tr>
                         {% endfor %}
                     </tbody>
                 </table>
             </div>
 
-            <!-- Modal: Agregar Nueva Evidencia -->
+            <!-- Modal: Agregar Flora o Fauna -->
             <div class="modal-backdrop" id="add-evidence-modal">
                 <div class="modal">
                     <form method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="modal-header">
-                            <h3 class="modal-title">Agregar Nuevo Reporte</h3>
+                            <h3 class="modal-title">Agregar Flora o Fauna</h3>
                             <button class="modal-close" type="button">&times;</button>
                         </div>
                         <div class="modal-body">
                             <div class="form-group">
-                                <label class="form-label">Repote</label>
-                                <input type="text" name="actividad" class="form-control" placeholder="Actividad relacionada con la evidencia">
+                                <label class="form-label">Tipo</label>
+                                <select name="tipo" class="form-control" required>
+                                    <option value="">Seleccione</option>
+                                    <option value="Flora">Flora</option>
+                                    <option value="Fauna">Fauna</option>
+                                </select>
                             </div>
 
                             <div class="form-group">
-                                <label class="form-label">Evidencia</label>
+                                <label class="form-label">Nombre de la Especie</label>
+                                <input type="text" name="nombre_especie" class="form-control" placeholder="Nombre común o científico" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Imagen</label>
                                 <div class="file-upload">
                                     <label class="file-upload-label">
                                         <div style="text-align: center;">
@@ -83,26 +101,14 @@
                                             <div class="upload-text">Arrastre y suelte la imagen aquí</div>
                                             <div class="upload-hint">o haga clic para seleccionar</div>
                                         </div>
-                                        <input type="file" name="archivo" class="file-upload-input" required>
+                                        <input type="file" name="imagen" class="file-upload-input" accept="image/*" required>
                                     </label>
                                 </div>
                             </div>
 
-                            <!-- Ubicación -->
-                            <div class="campo">
-                                <label for="ubicacion">Ubicación:</label>
-                                <input class="form-control" type="text" id="ubicacion" name="ubicacion" readonly placeholder="Haz clic para obtener tu ubicación">
-                            </div>
-                            <br>
-                            <!-- Botón para Obtener Ubicación -->
-                            <div class="campo">
-                                <input class="btn btn-primary" xtype="button" value="Obtener Ubicación" onclick="obtenerUbicacion()">
-                            </div>
-                            <br>
-
                             <div class="form-group">
-                                <label class="form-label">Observaciones</label>
-                                <textarea name="observaciones" class="form-control" rows="3" placeholder="Observaciones adicionales"></textarea>
+                                <label class="form-label">Descripción</label>
+                                <textarea name="descripcion" class="form-control" rows="3" placeholder="Descripción de la especie" required></textarea>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -112,6 +118,7 @@
                     </form>
                 </div>
             </div>
+
         </div>
     </div>
 </main>
